@@ -5,27 +5,41 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fvon-der <fvon-der@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/28 15:54:35 by fvon-der          #+#    #+#             */
-/*   Updated: 2024/06/28 16:52:01 by fvon-der         ###   ########.fr       */
+/*   Created: 2024/07/04 13:55:06 by fvon-der          #+#    #+#             */
+/*   Updated: 2024/07/08 13:42:57 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incl/fdf.h"
-
-void	free_map(int **map, int height)
+// Count the number of words in a string using a delimiter
+int	count_words(const char *str, char delimiter)
 {
+	int	count;
 	int	i;
 
+	count = 0;
 	i = 0;
-	if (map == NULL)
-		return ;
-	while (map[i] != NULL && i < height)
+	while (str[i])
 	{
-		free(map[i]);
-		map[i] = NULL;
-		i++;
+		while (str[i] && str[i] == delimiter)
+			i++;
+		if (str[i] && str[i] != delimiter)
+		{
+			count++;
+			while (str[i] && str[i] != delimiter)
+				i++;
+		}
 	}
-	free(map);
-	map = NULL;
+	return (count);
 }
 
+// Allocate memory for the map based on height
+static int	**allocate_map(int height)
+{
+	int	**map;
+
+	map = (int **)malloc(sizeof(int *) * height);
+	if (!map)
+		return (NULL);
+	return (map);
+}
