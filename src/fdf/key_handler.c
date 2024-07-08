@@ -6,17 +6,14 @@
 /*   By: fvon-der <fvon-der@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 17:29:27 by fvon-der          #+#    #+#             */
-/*   Updated: 2024/07/08 13:46:01 by fvon-der         ###   ########.fr       */
+/*   Updated: 2024/07/08 15:01:57 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incl/fdf.h"
 
-int	handle_keypress(int keycode, void *param)
+int	handle_keypress(int keycode, t_renderer *renderer)
 {
-	t_renderer	*renderer;
-
-	renderer = (t_renderer *)param;
 	if (keycode == KEY_ESC)
 		exit(0);
 	else if (keycode == KEY_UP || keycode == KEY_DOWN

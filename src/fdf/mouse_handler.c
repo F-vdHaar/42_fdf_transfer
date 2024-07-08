@@ -6,7 +6,7 @@
 /*   By: fvon-der <fvon-der@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:08:24 by fvon-der          #+#    #+#             */
-/*   Updated: 2024/07/08 13:07:27 by fvon-der         ###   ########.fr       */
+/*   Updated: 2024/07/08 15:07:08 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,8 @@ void	init_mouse(t_renderer *renderer)
 	renderer->mouse->prev_y = 0;
 }
 
-int	handle_mouse_press(int button, int x, int y, void *param)
+int	handle_mouse_press(int button, int x, int y, t_renderer *renderer)
 {
-	t_renderer	*renderer ;
-
-	renderer = (t_renderer *)param;
 	if (button == MOUSE_SCROLL_UP || button == MOUSE_SCROLL_DOWN)
 		handle_zoom_mouse(renderer, button);
 	else if (button == MOUSE_LEFT_BUTTON)
@@ -44,23 +41,18 @@ int	handle_mouse_press(int button, int x, int y, void *param)
 	return (0);
 }
 
-int	handle_mouse_release(int button, int x, int y, void *param)
+int	handle_mouse_release(int button, int x, int y, t_renderer *renderer)
 {
-	t_renderer	*renderer;
-
-	renderer = (t_renderer *)param;
 	renderer->mouse->button = 0;
 	display(renderer);
 	return (0);
 }
 
-int	handle_mouse_move(int x, int y, void *param)
+int	handle_mouse_move(int x, int y, t_renderer *renderer)
 {
-	t_renderer	*renderer;
 	int			dx;
 	int			dy;
 
-	renderer = (t_renderer *)param;
 	dx = x - renderer->mouse->prev_x;
 	dy = y - renderer->mouse->prev_y;
 	if (renderer->mouse->button == MOUSE_LEFT_BUTTON)
