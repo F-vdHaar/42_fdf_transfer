@@ -6,11 +6,14 @@
 /*   By: fvon-der <fvon-der@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 15:54:35 by fvon-der          #+#    #+#             */
-/*   Updated: 2024/07/08 13:43:15 by fvon-der         ###   ########.fr       */
+/*   Updated: 2024/07/08 17:33:39 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incl/fdf.h"
+
+static t_list	*read_file(const char *filename, int *line_count);
+static int		fill_map(int **map, t_list *lines, int width);
 
 void	init_map(t_map **map, const char *filename)
 {
@@ -39,12 +42,12 @@ static t_list	*read_file(const char *filename, int *line_count)
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 		return (NULL);
-	line = get_next_line(fd);
+	line = get_next_line(fd, line);
 	while (line != NULL)
 	{
-		ft_lstadd_back(&lines, ft_lstnew(line));
+		ft_lstadd_back(&lines, ft_lstnew(line, sizeof(line)));
 		(*line_count)++;
-		line = get_next_line(fd);
+		line = get_next_line(fd, line);
 	}
 	close(fd);
 	return (lines);
@@ -80,27 +83,27 @@ static int	fill_map(int **map, t_list *lines, int width)
 	return (1);
 }
 
-int	**parse_map(const char *filename, int *width, int *height)
+int	**parse_map(const char *filename)
 {
 	t_list	*lines;
 	int		**map;
-	int		line_count;
+	int		height;
+	int		width;
 
-	line_count = 0;
-	lines = read_file(filename, &line_count);
-	if (!lines || line_count <= 0)
+	height = 0;
+	lines = read_file(filename, &height);
+	if (!lines || height <= 0)
 		return (NULL);
-	*height = line_count;
-	*width = count_words(lines->content, ' ');
-	map = allocate_map(*height);
+	width = count_words(lines->content, ' ');
+	map = allocate_map(height);
 	if (!map)
 	{
 		ft_lstclear(&lines);
 		return (NULL);
 	}
-	if (!fill_map(map, lines, *width))
+	if (!fill_map(map, lines, width))
 	{
-		free_map(map, *height);
+		free_map(map, height);
 		ft_lstclear(&lines);
 		return (NULL);
 	}
