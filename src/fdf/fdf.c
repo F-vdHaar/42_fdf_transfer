@@ -6,29 +6,79 @@
 /*   By: fvon-der <fvon-der@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 15:21:33 by fvon-der          #+#    #+#             */
-/*   Updated: 2024/06/28 16:10:58 by fvon-der         ###   ########.fr       */
+/*   Updated: 2024/07/08 13:23:28 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incl/fdf.h"
 
+/* 
+Initialize the Environment
+Parse the Map File
+Set Up Rendering Structures
+Render the Map
+Handle User Input
+Cleanup Resources 
+*/
 int	main(int argv, char **argc)
 {
-	int			**map;
-	t_map_dim	map_dim;
+	t_renderer	*renderer;
+	t_map		*map;
 
-	if (argv != 2)
-		return (EXIT_FAILURE);
-	map = parse_map(argc[1], &map_dim);
-	free_map(map, map_dim.height);
-
-	mlx = mlx_init();
-	img = mlx_new_image(mlx, 1920, 1080);
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
-								&img.endian);
-	mlx_win = mlx_new_window(mlx, 1920, 1080, "FVDHs FDF project");
-	mlx_loop(mlx);
-
-	mlx_terminate(fdf.mlx);
+	initialize(argc, argv, &renderer, &map);
+	cleanup(renderer, map);
 	return (EXIT_SUCCESS);
+}
+
+/* sets up the MLX environment, 
+creates the window and image buffer,
+initializes the map and camera. */
+void	initialize(int argc, char *argv[], t_renderer **renderer, t_map **map)
+{
+	if (argc != 2)
+	{
+		ft_printf("Please enter a <map_file> for : %s \n", argv[0]);
+		exit(EXIT_FAILURE);
+	}
+	init_renderer(renderer);
+	init_map(map, argv[1]);
+	init_camera(*renderer);
+	init_mouse(*renderer);
+	setup_event_hooks(*renderer);
+	render_initial(*renderer, *map);
+	mlx_loop((*renderer)->mlx_ptr);
+}
+
+/* Draws the map onto the image buffer
+Transfers the image buffer to the window.
+ */
+static void	render_initial(t_renderer *renderer, t_map *map)
+{
+	render_map(renderer, map);
+	display(renderer);
+}
+
+/* 
+frees allocated memory
+destroys MLX objects.
+ */
+void	cleanup(t_renderer *renderer, t_map *map)
+{
+	if (renderer)
+	{
+		if (renderer->mlx_ptr && renderer->win_ptr)
+			mlx_destroy_window(renderer->mlx_ptr, renderer->win_ptr);
+		if (renderer->img_ptr)
+			mlx_destroy_image(renderer->mlx_ptr, renderer->img_ptr);
+		if (renderer->camera)
+			free(renderer->camera);
+		if (renderer->mouse)
+			free(renderer->mouse);
+		free(renderer);
+	}
+	if (map)
+	{
+		free_map(map->map, map->height);
+		free(map);
+	}
 }

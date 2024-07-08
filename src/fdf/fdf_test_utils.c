@@ -6,7 +6,7 @@
 /*   By: fvon-der <fvon-der@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 16:15:59 by fvon-der          #+#    #+#             */
-/*   Updated: 2024/06/28 16:37:49 by fvon-der         ###   ########.fr       */
+/*   Updated: 2024/07/08 13:21:41 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,19 @@ void	print_map(int **map)
 		write(1, "\n", sizeof(char));
 		i++;
 	}
+}
+
+//    ft_printf(file, "%s\n", message);
+void	log_error(const char *message)
+{
+	FILE	*file;
+
+	file = fopen("error.log", "a");
+	if (file == NULL)
+	{
+		ft_printf("Could not open error.log for writing\n");
+		return ;
+	}
+	ft_printf("%s\n", message);
+	fclose(file);
 }
