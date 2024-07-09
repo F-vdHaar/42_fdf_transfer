@@ -6,11 +6,11 @@
 /*   By: fvon-der <fvon-der@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 13:09:07 by fvon-der          #+#    #+#             */
-/*   Updated: 2024/07/08 13:43:22 by fvon-der         ###   ########.fr       */
+/*   Updated: 2024/07/09 18:32:12 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../incl/fdf.h"
+#include "../../include/fdf.h"
 
 void	init_camera(t_renderer *renderer)
 {

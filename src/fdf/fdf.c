@@ -6,11 +6,11 @@
 /*   By: fvon-der <fvon-der@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 15:21:33 by fvon-der          #+#    #+#             */
-/*   Updated: 2024/07/08 13:23:28 by fvon-der         ###   ########.fr       */
+/*   Updated: 2024/07/09 18:32:51 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../incl/fdf.h"
+#include "../../include/fdf.h"
 
 /* 
 Initialize the Environment

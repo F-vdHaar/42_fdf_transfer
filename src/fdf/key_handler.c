@@ -6,11 +6,11 @@
 /*   By: fvon-der <fvon-der@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 17:29:27 by fvon-der          #+#    #+#             */
-/*   Updated: 2024/07/08 15:01:57 by fvon-der         ###   ########.fr       */
+/*   Updated: 2024/07/09 18:32:58 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../incl/fdf.h"
+#include "../../include/fdf.h"
 
 int	handle_keypress(int keycode, t_renderer *renderer)
 {

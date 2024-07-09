@@ -6,11 +6,11 @@
 /*   By: fvon-der <fvon-der@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 17:01:23 by fvon-der          #+#    #+#             */
-/*   Updated: 2024/07/07 17:04:16 by fvon-der         ###   ########.fr       */
+/*   Updated: 2024/07/09 18:33:21 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../incl/fdf.h"
+#include "../../include/fdf.h"
 
 void	rotate_x(int **map, int width, int height, double x_angle)
 {

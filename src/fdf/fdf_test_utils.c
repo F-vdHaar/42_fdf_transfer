@@ -6,11 +6,11 @@
 /*   By: fvon-der <fvon-der@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 16:15:59 by fvon-der          #+#    #+#             */
-/*   Updated: 2024/07/08 13:21:41 by fvon-der         ###   ########.fr       */
+/*   Updated: 2024/07/09 18:32:38 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../incl/fdf.h"
+#include "../../include/fdf.h"
 
 void	print_map(int **map)
 {

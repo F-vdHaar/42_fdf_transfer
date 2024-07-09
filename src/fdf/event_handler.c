@@ -6,11 +6,11 @@
 /*   By: fvon-der <fvon-der@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:06:54 by fvon-der          #+#    #+#             */
-/*   Updated: 2024/07/08 14:48:25 by fvon-der         ###   ########.fr       */
+/*   Updated: 2024/07/09 18:32:42 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../incl/fdf.h"
+#include "../../include/fdf.h"
 
 void	setup_event_hooks(t_renderer *renderer)
 {

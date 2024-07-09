@@ -6,11 +6,11 @@
 /*   By: fvon-der <fvon-der@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:08:24 by fvon-der          #+#    #+#             */
-/*   Updated: 2024/07/08 15:07:08 by fvon-der         ###   ########.fr       */
+/*   Updated: 2024/07/09 18:33:16 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../incl/fdf.h"
+#include "../../include/fdf.h"
 
 void	init_mouse(t_renderer *renderer)
 {

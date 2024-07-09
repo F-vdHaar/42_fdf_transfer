@@ -6,11 +6,11 @@
 /*   By: fvon-der <fvon-der@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 15:54:35 by fvon-der          #+#    #+#             */
-/*   Updated: 2024/07/08 17:33:39 by fvon-der         ###   ########.fr       */
+/*   Updated: 2024/07/09 18:33:10 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../incl/fdf.h"
+#include "../../include/fdf.h"
 
 static t_list	*read_file(const char *filename, int *line_count);
 static int		fill_map(int **map, t_list *lines, int width);

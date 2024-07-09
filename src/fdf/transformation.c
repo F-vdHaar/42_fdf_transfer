@@ -6,11 +6,11 @@
 /*   By: fvon-der <fvon-der@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 16:53:43 by fvon-der          #+#    #+#             */
-/*   Updated: 2024/07/08 13:01:27 by fvon-der         ###   ########.fr       */
+/*   Updated: 2024/07/09 18:33:26 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../incl/fdf.h"
+#include "../../include/fdf.h"
 
 void	handle_translate(t_map *map, int dx, int dy)
 {

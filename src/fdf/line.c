@@ -6,11 +6,11 @@
 /*   By: fvon-der <fvon-der@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 14:10:11 by fvon-der          #+#    #+#             */
-/*   Updated: 2024/07/08 13:46:29 by fvon-der         ###   ########.fr       */
+/*   Updated: 2024/07/09 18:33:03 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../incl/fdf.h"
+#include "../../include/fdf.h"
 
 void	draw_line(t_renderer *renderer, t_point start, t_point end, int color)
 {

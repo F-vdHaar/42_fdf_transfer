@@ -6,11 +6,11 @@
 /*   By: fvon-der <fvon-der@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 15:25:03 by fvon-der          #+#    #+#             */
-/*   Updated: 2024/07/08 13:46:53 by fvon-der         ###   ########.fr       */
+/*   Updated: 2024/07/09 18:32:46 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../incl/fdf.h"
+#include "../../include/fdf.h"
 
 // mlx_pixel_put is quite slow
 // as it push the pixel instantly to the window 
