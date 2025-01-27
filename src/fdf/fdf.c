@@ -3,24 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvon-der <fvon-der@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: fvon-der <fvon-der@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 15:21:33 by fvon-der          #+#    #+#             */
-/*   Updated: 2024/07/09 18:32:51 by fvon-der         ###   ########.fr       */
+/*   Updated: 2025/01/26 16:55:46 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/fdf.h"
+#include "fdf.h"
+
+static void	render_initial(t_renderer *renderer, t_map *map);
 
 /* 
 Initialize the Environment
-Parse the Map File
-Set Up Rendering Structures
-Render the Map
-Handle User Input
 Cleanup Resources 
 */
-int	main(int argv, char **argc)
+int	main(int argc, char **argv)
 {
 	t_renderer	*renderer;
 	t_map		*map;
@@ -30,9 +28,12 @@ int	main(int argv, char **argc)
 	return (EXIT_SUCCESS);
 }
 
-/* sets up the MLX environment, 
-creates the window and image buffer,
-initializes the map and camera. */
+/* 
+Parse the Map File
+Initialise rendering and interaction Structures
+Render the Map the first time
+Handle User Input
+mlx loop */
 void	initialize(int argc, char *argv[], t_renderer **renderer, t_map **map)
 {
 	if (argc != 2)

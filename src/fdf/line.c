@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   line.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvon-der <fvon-der@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: fvon-der <fvon-der@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 14:10:11 by fvon-der          #+#    #+#             */
-/*   Updated: 2024/07/09 18:33:03 by fvon-der         ###   ########.fr       */
+/*   Updated: 2025/01/26 16:20:36 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/fdf.h"
+#include "fdf.h"
 
 void	draw_line(t_renderer *renderer, t_point start, t_point end, int color)
 {
 	bresenham_draw(renderer, start, end, color);
 }
 
-static void	init_line_params(t_point start, t_point end,
+void	init_line_params(t_point start, t_point end,
 t_point *delta, t_point *sign)
 {
 	delta->x = abs(end.x - start.x);
@@ -32,7 +32,7 @@ t_point *delta, t_point *sign)
 		sign->y = -1;
 }
 
-static void	draw_vertical_lines(t_renderer *renderer, t_map *map, int x, int y)
+void	draw_vertical_lines(t_renderer *renderer, t_map *map, int x, int y)
 {
 	t_point	start;
 	t_point	end;
@@ -47,7 +47,7 @@ static void	draw_vertical_lines(t_renderer *renderer, t_map *map, int x, int y)
 	}
 }
 
-static void	draw_horizontal_lines(t_renderer *renderer,
+void	draw_horizontal_lines(t_renderer *renderer,
 t_map *map, int x, int y)
 {
 	t_point	start;

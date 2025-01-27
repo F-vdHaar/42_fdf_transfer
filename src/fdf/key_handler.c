@@ -3,14 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   key_handler.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvon-der <fvon-der@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: fvon-der <fvon-der@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 17:29:27 by fvon-der          #+#    #+#             */
-/*   Updated: 2024/07/09 18:32:58 by fvon-der         ###   ########.fr       */
+/*   Updated: 2025/01/12 13:42:53 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/fdf.h"
+#include "fdf.h"
+
+static void	handle_translate_key(t_renderer *renderer, int keycode);
+static void	handle_scale_key(t_renderer *renderer, int keycode);
+static void	handle_rotate_key(t_renderer *renderer, int keycode);
+static void	handle_zoom_key(t_renderer *renderer, int keycode);
 
 int	handle_keypress(int keycode, t_renderer *renderer)
 {
@@ -33,7 +38,7 @@ int	handle_keypress(int keycode, t_renderer *renderer)
 	return (0);
 }
 
-void	handle_scale_key(t_renderer *renderer, int keycode)
+static void	handle_scale_key(t_renderer *renderer, int keycode)
 {
 	if (keycode == KEY_STRETCH_X)
 		handle_scale(renderer, 1.1, 1.0, 1.0);
@@ -43,7 +48,7 @@ void	handle_scale_key(t_renderer *renderer, int keycode)
 		handle_scale(renderer, 1.0, 1.0, 1.1);
 }
 
-void	handle_rotate_key(t_renderer *renderer, int keycode)
+static void	handle_rotate_key(t_renderer *renderer, int keycode)
 {
 	if (keycode == KEY_ROTATE_LEFT)
 		handle_rotate(renderer, 0, 0.1, 0);
@@ -59,7 +64,7 @@ void	handle_rotate_key(t_renderer *renderer, int keycode)
 		handle_rotate(renderer, 0, 0, -0.1);
 }
 
-void	handle_zoom_key(t_renderer *renderer, int keycode)
+static void	handle_zoom_key(t_renderer *renderer, int keycode)
 {
 	if (keycode == KEY_ZOOM_IN)
 		handle_zoom(renderer, 1.1);
@@ -67,16 +72,16 @@ void	handle_zoom_key(t_renderer *renderer, int keycode)
 		handle_zoom(renderer, 0.9);
 }
 
-void	handle_translate_key(t_renderer *renderer, int keycode)
+static void	handle_translate_key(t_renderer *renderer, int keycode)
 {
 	if (keycode == KEY_UP)
-		handle_translate(renderer, 0, -10, 0);
+		handle_translate(renderer, 0, -10);
 	else if (keycode == KEY_DOWN)
-		handle_translate(renderer, 0, 10, 0);
+		handle_translate(renderer, 0, 10);
 	else if (keycode == KEY_LEFT)
-		handle_translate(renderer, -10, 0, 0);
+		handle_translate(renderer, -10, 0);
 	else if (keycode == KEY_RIGHT)
-		handle_translate(renderer, 10, 0, 0);
+		handle_translate(renderer, 10, 0);
 	else if (keycode == KEY_Z_TRANSLATE)
-		handle_translate(renderer, 0, 0, 10);
+		handle_translate(renderer, 0, 10);
 }
