@@ -1,12 +1,12 @@
 [submodule "gnl"]
-	path = gnl
+	path = lib/gnl
 	url = git@github.com:F-vdHaar/42_get_next_line.git
 	branch = lib
 [submodule "ft_printf"]
-	path = ft_printf
+	path = lib/ft_printf
 	url = git@github.com:F-vdHaar/42_ft_printf.git
 	branch = lib
 [submodule "libft"]
-	path = libft
+	path = lib/libft
 	url = git@github.com:F-vdHaar/42_libft.git
 	branch = lib
