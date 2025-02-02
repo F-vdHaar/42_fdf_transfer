@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvon-der <fvon-der@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: fvon-der <fvon-der@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 19:18:22 by fvon-der          #+#    #+#             */
-/*   Updated: 2024/07/09 18:32:18 by fvon-der         ###   ########.fr       */
+/*   Updated: 2025/01/26 16:22:31 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/fdf.h"
+#include "fdf.h"
 
-static void	bresenham_draw(t_renderer *renderer,
+void	bresenham_draw(t_renderer *renderer,
 		t_point start, t_point end, int color)
 {
 	t_point	delta;

@@ -3,24 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   fdf_test_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvon-der <fvon-der@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: fvon-der <fvon-der@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 16:15:59 by fvon-der          #+#    #+#             */
-/*   Updated: 2024/07/09 18:32:38 by fvon-der         ###   ########.fr       */
+/*   Updated: 2025/01/11 17:22:44 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/fdf.h"
+#include "fdf.h"
 
 void	print_map(int **map)
 {
 	int	i;
 	int	j;
 
+	i = 0;
 	while (map[i] != NULL)
 	{
 		j = 0;
-		while (map[i][j] != NULL)
+		while (map[i][j] != -1)
 		{
 			ft_printf("%d ", map[i][j]);
 			j++;

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvon-der <fvon-der@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: fvon-der <fvon-der@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 15:54:35 by fvon-der          #+#    #+#             */
-/*   Updated: 2024/07/09 18:33:10 by fvon-der         ###   ########.fr       */
+/*   Updated: 2025/01/12 14:24:40 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/fdf.h"
+#include "fdf.h"
 
 static t_list	*read_file(const char *filename, int *line_count);
 static int		fill_map(int **map, t_list *lines, int width);
@@ -42,12 +42,12 @@ static t_list	*read_file(const char *filename, int *line_count)
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 		return (NULL);
-	line = get_next_line(fd, line);
+	line = get_next_line(fd);
 	while (line != NULL)
 	{
-		ft_lstadd_back(&lines, ft_lstnew(line, sizeof(line)));
+		ft_lstadd_back(&lines, ft_lstnew(line));
 		(*line_count)++;
-		line = get_next_line(fd, line);
+		line = get_next_line(fd);
 	}
 	close(fd);
 	return (lines);
@@ -98,16 +98,16 @@ int	**parse_map(const char *filename)
 	map = allocate_map(height);
 	if (!map)
 	{
-		ft_lstclear(&lines);
+		ft_lstclear(&lines, free);
 		return (NULL);
 	}
 	if (!fill_map(map, lines, width))
 	{
 		free_map(map, height);
-		ft_lstclear(&lines);
+		ft_lstclear(&lines, free);
 		return (NULL);
 	}
-	ft_lstclear(&lines);
+	ft_lstclear(&lines, free);
 	return (map);
 }
 

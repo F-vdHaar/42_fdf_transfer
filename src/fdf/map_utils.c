@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   map_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvon-der <fvon-der@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: fvon-der <fvon-der@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 13:55:06 by fvon-der          #+#    #+#             */
-/*   Updated: 2024/07/09 18:33:07 by fvon-der         ###   ########.fr       */
+/*   Updated: 2025/01/12 14:20:48 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/fdf.h"
+#include "fdf.h"
 // Count the number of words in a string using a delimiter
 int	count_words(const char *str, char delimiter)
 {
@@ -34,7 +34,7 @@ int	count_words(const char *str, char delimiter)
 }
 
 // Allocate memory for the map based on height
-static int	**allocate_map(int height)
+int	**allocate_map(int height)
 {
 	int	**map;
 
