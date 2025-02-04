@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   map_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvon-der <fvon-der@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 13:55:06 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/01/12 14:20:48 by fvon-der         ###   ########.fr       */
+/*   Updated: 2025/02/04 02:07:32 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
-// Count the number of words in a string using a delimiter
+#include <fdf.h>
+
 int	count_words(const char *str, char delimiter)
 {
 	int	count;
@@ -33,13 +33,69 @@ int	count_words(const char *str, char delimiter)
 	return (count);
 }
 
-// Allocate memory for the map based on height
-int	**allocate_map(int height)
+int	**allocate_map(int height, int width)
 {
 	int	**map;
+	int	i;
 
 	map = (int **)malloc(sizeof(int *) * height);
 	if (!map)
 		return (NULL);
+	i = 0;
+	while (i < height)
+	{
+		map[i] = (int *)malloc(sizeof(int) * width);
+		if (!map[i])
+		{
+			while (--i >= 0)
+				free(map[i]);
+			free(map);
+			return (NULL);
+		}
+		i++;
+	}
 	return (map);
+}
+
+void	free_map(t_map *map)
+{
+	int	i;
+
+	if (map)
+	{
+		if (map->grid)
+		{
+			i = 0;
+			while (i < map->height)
+			{
+				free(map->grid[i]);
+				i++;
+			}
+			free(map->grid);
+		}
+		free(map);
+	}
+}
+
+void	find_z_bounds(t_map *map)
+{
+	int	i;
+	int	j;
+
+	map->z_min = INT_MAX;
+	map->z_max = INT_MIN;
+	i = 0;
+	while (i < map->height)
+	{
+		j = 0;
+		while (j < map->width)
+		{
+			if (map->grid[i][j] < map->z_min)
+				map->z_min = map->grid[i][j];
+			if (map->grid[i][j] > map->z_max)
+				map->z_max = map->grid[i][j];
+			j++;
+		}
+		i++;
+	}
 }
