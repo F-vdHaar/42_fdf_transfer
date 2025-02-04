@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mouse_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvon-der <fvon-der@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:08:24 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/01/26 14:39:23 by fvon-der         ###   ########.fr       */
+/*   Updated: 2025/02/04 02:50:18 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,18 @@
 
 void	init_mouse(t_renderer *renderer)
 {
-	renderer->mouse = (t_mouse *)malloc(sizeof(t_mouse));
+	renderer->mouse = malloc(sizeof(t_mouse));
 	if (!renderer->mouse)
 	{
-		log_error("Failed to allocate memory for mouse");
+		cleanup(renderer);
 		exit(EXIT_FAILURE);
 	}
-	renderer->mouse->button = 0;
+	renderer->mouse->is_pressed = 0;
 	renderer->mouse->prev_x = 0;
 	renderer->mouse->prev_y = 0;
+	renderer->mouse->x = 0;
+	renderer->mouse->y = 0;
+	renderer->mouse->button = 0;
 }
 
 int	handle_mouse_press(int button, int x, int y, t_renderer *renderer)
@@ -35,21 +38,25 @@ int	handle_mouse_press(int button, int x, int y, t_renderer *renderer)
 		renderer->mouse->prev_x = x;
 		renderer->mouse->prev_y = y;
 	}
-	display(renderer);
+	render_map(renderer);
+	mlx_put_image_to_window(renderer->mlx.mlx_ptr, renderer->mlx.win_ptr,
+		renderer->mlx.img_ptr, 0, 0);
 	return (0);
 }
 
 int	handle_mouse_release(t_renderer *renderer)
 {
 	renderer->mouse->button = 0;
-	display(renderer);
+	render_map(renderer);
+	mlx_put_image_to_window(renderer->mlx.mlx_ptr, renderer->mlx.win_ptr,
+		renderer->mlx.img_ptr, 0, 0);
 	return (0);
 }
 
 int	handle_mouse_move(int x, int y, t_renderer *renderer)
 {
-	int			dx;
-	int			dy;
+	int	dx;
+	int	dy;
 
 	dx = x - renderer->mouse->prev_x;
 	dy = y - renderer->mouse->prev_y;
@@ -64,7 +71,9 @@ int	handle_mouse_move(int x, int y, t_renderer *renderer)
 	}
 	renderer->mouse->prev_x = x;
 	renderer->mouse->prev_y = y;
-	display(renderer);
+	render_map(renderer);
+	mlx_put_image_to_window(renderer->mlx.mlx_ptr, renderer->mlx.win_ptr,
+		renderer->mlx.img_ptr, 0, 0);
 	return (0);
 }
 
@@ -74,5 +83,7 @@ void	handle_mouse_zoom(t_renderer *renderer, int button)
 		handle_zoom(renderer, 1.1);
 	else if (button == MOUSE_SCROLL_DOWN)
 		handle_zoom(renderer, 0.9);
-	display(renderer);
+	render_map(renderer);
+	mlx_put_image_to_window(renderer->mlx.mlx_ptr, renderer->mlx.win_ptr,
+		renderer->mlx.img_ptr, 0, 0);
 }
