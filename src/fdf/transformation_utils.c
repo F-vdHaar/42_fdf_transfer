@@ -3,80 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   transformation_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvon-der <fvon-der@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 17:01:23 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/01/26 16:19:30 by fvon-der         ###   ########.fr       */
+/*   Updated: 2025/02/04 02:19:37 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	rotate_x(int **map, int width, int height, double x_angle)
+void	rotate_point(t_point *point, t_camera *camera)
 {
-	int		y;
-	int		x;
+	double	temp_x;
 	double	temp_y;
 	double	temp_z;
 
-	y = 0;
-	while (y < height)
-	{
-		x = 0;
-		while (x < width)
-		{
-			temp_y = y * cos(x_angle) - map[y][x] * sin(x_angle);
-			temp_z = y * sin(x_angle) + map[y][x] * cos(x_angle);
-			y = temp_y;
-			map[y][x] = temp_z;
-			x++;
-		}
-		y++;
-	}
+	temp_y = point->y * cos(camera->x_angle) - point->z * sin(camera->x_angle);
+	temp_z = point->y * sin(camera->x_angle) + point->z * cos(camera->x_angle);
+	point->y = temp_y;
+	point->z = temp_z;
+	temp_x = point->x * cos(camera->y_angle) + point->z * sin(camera->y_angle);
+	temp_z = -point->x * sin(camera->y_angle) + point->z * cos(camera->y_angle);
+	point->x = temp_x;
+	point->z = temp_z;
+	temp_x = point->x * cos(camera->z_angle) - point->y * sin(camera->z_angle);
+	temp_y = point->x * sin(camera->z_angle) + point->y * cos(camera->z_angle);
+	point->x = temp_x;
+	point->y = temp_y;
 }
-
-void	rotate_y(int **map, int width, int height, double y_angle)
-{
-	int		y;
-	int		x;
-	double	temp_x;
-	double	temp_z;
-
-	y = 0;
-	while (y < height)
-	{
-		x = 0;
-		while (x < width)
-		{
-			temp_x = x * cos(y_angle) + map[y][x] * sin(y_angle);
-			temp_z = -x * sin(y_angle) + map[y][x] * cos(y_angle);
-			x = temp_x;
-			map[y][x] = temp_z;
-			x++;
-		}
-		y++;
-	}
-}
-
-// void	rotate_z(int **map, int width, int height, double z_angle)
-// {
-// 	int		y;
-// 	int		x;
-// 	double	temp_x;
-// 	double	temp_y;
-
-// 	y = 0;
-// 	while (y < height)
-// 	{
-// 		x = 0;
-// 		while (x < width)
-// 		{
-// 			temp_x = x * cos(z_angle) - y * sin(z_angle);
-// 			temp_y = x * sin(z_angle) + y * cos(z_angle);
-// 			x = temp_x;
-// 			y = temp_y;
-// 			x++;
-// 		}
-// 		y++;
-// 	}
-// }
