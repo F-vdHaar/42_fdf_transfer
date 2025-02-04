@@ -3,25 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   line.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvon-der <fvon-der@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 14:10:11 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/01/26 16:20:36 by fvon-der         ###   ########.fr       */
+/*   Updated: 2025/02/04 02:01:13 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	draw_line(t_renderer *renderer, t_point start, t_point end, int color)
+static void	draw_vertical_line(t_renderer *renderer, t_map *map, int x, int y);
+static void	draw_horizontal_line(t_renderer *renderer,
+				t_map *map, int x, int y);
+
+void	draw_line(t_renderer *renderer, t_point start, t_point end)
 {
-	bresenham_draw(renderer, start, end, color);
+	bresenham_draw(renderer, start, end);
 }
 
 void	init_line_params(t_point start, t_point end,
-t_point *delta, t_point *sign)
+			t_point *delta, t_point *sign)
 {
-	delta->x = abs(end.x - start.x);
-	delta->y = abs(end.y - start.y);
+	delta->x = fabsf(end.x - start.x);
+	delta->y = fabsf(end.y - start.y);
 	if (start.x < end.x)
 		sign->x = 1;
 	else
@@ -32,33 +36,47 @@ t_point *delta, t_point *sign)
 		sign->y = -1;
 }
 
-void	draw_vertical_lines(t_renderer *renderer, t_map *map, int x, int y)
+static void	draw_horizontal_line(t_renderer *renderer, t_map *map, int x, int y)
 {
 	t_point	start;
 	t_point	end;
 
-	if (y < map->height - 1)
+	start = project_point(renderer, x, y, map->grid[y][x]);
+	if (x < map->width - 1)
 	{
-		start.x = x;
-		start.y = y;
-		end.x = x;
-		end.y = y + 1;
-		draw_line(renderer, start, end, 0xFFFFFF);
+		end = project_point(renderer, x + 1, y, map->grid[y][x + 1]);
+		draw_line(renderer, start, end);
 	}
 }
 
-void	draw_horizontal_lines(t_renderer *renderer,
-t_map *map, int x, int y)
+static void	draw_vertical_line(t_renderer *renderer, t_map *map, int x, int y)
 {
 	t_point	start;
 	t_point	end;
 
-	if (x < map->width - 1)
+	start = project_point(renderer, x, y, map->grid[y][x]);
+	if (y < map->height - 1)
 	{
-		start.x = x;
-		start.y = y;
-		end.x = x + 1;
-		end.y = y;
-		draw_line(renderer, start, end, 0xFFFFFF);
+		end = project_point(renderer, x, y + 1, map->grid[y + 1][x]);
+		draw_line(renderer, start, end);
+	}
+}
+
+void	draw_map_lines(t_renderer *renderer, t_map *map)
+{
+	int	x;
+	int	y;
+
+	y = 0;
+	while (y < map->height)
+	{
+		x = 0;
+		while (x < map->width)
+		{
+			draw_horizontal_line(renderer, map, x, y);
+			draw_vertical_line(renderer, map, x, y);
+			x++;
+		}
+		y++;
 	}
 }
