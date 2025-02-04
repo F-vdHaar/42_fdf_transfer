@@ -3,23 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvon-der <fvon-der@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:10:04 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/01/26 17:01:56 by fvon-der         ###   ########.fr       */
+/*   Updated: 2025/02/04 02:48:15 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 
-# include <mlx.h>
-# include <math.h>
+# include <stdlib.h>
+# include <unistd.h>
 # include <stdio.h>
+# include <math.h>
 # include <fcntl.h>
-# include "get_next_line.h"
+# include <limits.h>
+# include <X11/keysym.h>
+# include "mlx.h"
 # include "libft.h"
-# include "ft_printf.h"
+# include "get_next_line.h" 
+# include "ft_printf.h" 
+
+# define MIN_ZOOM 1
+# define MAX_ZOOM 100
+# define MOUSE_SCROLL_UP 4
+# define MOUSE_SCROLL_DOWN 5
+# define MOUSE_LEFT_BUTTON 1
+# define ROTATE_MODE 0
+# define TRANSLATE_MODE 1
+# define SCALE_MODE 2
 
 // Keycodes
 # define KEY_ESC 53
@@ -40,130 +53,133 @@
 # define KEY_STRETCH_Y 16
 # define KEY_STRETCH_Z 8
 
-// Mouse button codes
-# define MOUSE_LEFT_BUTTON 1
-# define MOUSE_RIGHT_BUTTON 2
-# define MOUSE_SCROLL_UP 4
-# define MOUSE_SCROLL_DOWN 5
+typedef struct s_point
+{
+	float	x;
+	float	y;
+	float	z;
+	int		color;
+}	t_point;
 
 typedef struct s_map
 {
-	char	**file_content;
+	int		**grid;
 	int		width;
 	int		height;
-	int		**map;
-	int		z_max;
 	int		z_min;
+	int		z_max;
+	t_list	*file_content;
 }	t_map;
 
 typedef struct s_camera
 {
 	int		zoom;
-	double	x_angle;
-	double	y_angle;
-	double	z_angle;
+	float	x_angle;
+	float	y_angle;
+	float	z_angle;
 	float	z_height;
 	int		x_offset;
 	int		y_offset;
+	float	x_scale;
+	float	y_scale;
+	float	z_scale;
 	int		iso;
 }	t_camera;
+
+typedef struct s_mlx
+{
+	void	*mlx_ptr;
+	void	*win_ptr;
+	void	*img_ptr;
+	char	*img_data;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+}	t_mlx;
 
 typedef struct s_mouse
 {
 	int		is_pressed;
 	int		prev_x;
 	int		prev_y;
-	int		action;
+	int		x;
+	int		y;
 	int		button;
 }	t_mouse;
 
-typedef enum e_keymode
-{
-	ROTATE_MODE,
-	TRANSLATE_MODE,
-	SCALE_MODE,
-	NO_MODE
-}	t_keymode;
-
 typedef struct s_renderer
 {
-	void		*mlx_ptr;
-	void		*win_ptr;
-	void		*img_ptr;
-	char		*img_data;
-	int			bits_per_pixel;
-	int			line_length;
-	int			endian;
+	t_mlx		mlx;
+	t_map		*map;
+	t_camera	*camera;
+	t_mouse		*mouse;
 	int			win_width;
 	int			win_height;
 	int			is_focused;
-	t_camera	*camera;
-	t_mouse		*mouse;
-	t_map		*map;
-	t_keymode	keymode;
+	float		*z_buffer;
+	int			keymode;
 }	t_renderer;
 
-typedef struct s_point
-{
-	int			x;
-	int			y;
-}	t_point;
-
-
-// Function Prototypes
+// FDF functions
 void	initialize(int argc, char *argv[], t_renderer **renderer, t_map **map);
-void	cleanup(t_renderer *renderer, t_map *map);
+int		main(int argc, char **argv);
+void	cleanup(t_renderer *renderer);
 
-// Map
-void	init_map(t_map **map, const char *filename);
-int		**parse_map(const char *filename);
-int		validate_map(char **file_content);
-void	free_map(int **map, int height);
-// Map Utilities
-int		count_words(const char *str, char delimiter);
-int		**allocate_map(int height);
-
-// Camera
+// Camera functions
 void	init_camera(t_renderer *renderer);
+void	reset_camera(t_renderer *renderer);
+t_point	project_point(t_renderer *renderer, int x, int y, int z);
+
+// Event handling
+int		handle_close(t_renderer *renderer);
+int		handle_keypress(int keycode, t_renderer *renderer);
+void	setup_event_hooks(t_renderer *renderer);
 
 // Line
-void	draw_vertical_lines(t_renderer *renderer, t_map *map, int x, int y);
-void	draw_horizontal_lines(t_renderer *renderer, t_map *map, int x, int y);
-void	draw_line(t_renderer *renderer, t_point start, t_point end, int color);
-//-- Rendering
-void	render_map(t_renderer *renderer, t_map *map);
-void	put_pixel(t_renderer *renderer, int x, int y, int color);
-void	display(t_renderer *renderer);
-
-// Draw
-void	bresenham_draw(t_renderer *renderer,
-			t_point start, t_point end, int color);
+void	draw_line(t_renderer *renderer, t_point start, t_point end);
 void	init_line_params(t_point start, t_point end,
 			t_point *delta, t_point *sign);
 
-// Event Handling
-int		handle_keypress(int keycode, t_renderer *renderer);
-int		handle_keyrelease(int keycode, t_renderer *renderer);
+// Draw
+void	bresenham_draw(t_renderer *renderer, t_point start, t_point end);
+void	render_map(t_renderer *renderer);
 
-// Mouse Handler
-void	init_mouse(t_renderer *renderer);
-void	handle_mouse_zoom(t_renderer *renderer, int button);
+// Color utils
+int		get_color(t_map *map, int x, int y);
+int		i_color(int color1, int color2, double t);
+
+// Map functions
+void	init_map(t_map **map, const char *filename);
+void	find_z_bounds(t_map *map);
+
+// Map utilities
+int		**allocate_map(int height, int width);
+int		count_words(const char *str, char delimiter);
+void	free_map(t_map *map);
+void	free_string_array(char **arr);
+
+// Mouse handling
+int		handle_mouse_move(int x, int y, t_renderer *renderer);
 int		handle_mouse_press(int button, int x, int y, t_renderer *renderer);
 int		handle_mouse_release(t_renderer *renderer);
-int		handle_mouse_move(int x, int y, t_renderer *renderer);
+void	handle_mouse_zoom(t_renderer *renderer, int button);
+void	init_mouse(t_renderer *renderer);
 
-// Matrix Transformations
+// Renderer functions
+void	init_renderer(t_renderer *renderer);
+void	put_pixel(t_renderer *renderer, int x, int y, int color);
+
+// Transformations
+void	handle_rotate(t_renderer *renderer,
+			double x_angle, double y_angle, double z_angle);
+void	handle_scale(t_renderer *renderer,
+			double x_scale, double y_scale, double z_scale);
 void	handle_translate(t_renderer *renderer, double dx, double dy);
-void	handle_rotate(t_renderer *renderer, double x_angle, double y_angle, double z_angle);
-void	handle_scale(t_renderer *renderer, double x_scale, double y_scale, double z_scale);
 void	handle_zoom(t_renderer *renderer, double factor);
+void	rotate_point(t_point *point, t_camera *camera);
 
-// Utility Functions
-void	fast_mlx_pixel_put(t_renderer *renderer, int x, int y, int color);
-void	print_map(int **map);
+// Utility functions
 void	log_error(const char *message);
-
-// Event Hooks Setup
-void	setup_event_hooks(t_renderer *renderer);
+void	print_map(int **map);
 
 #endif
