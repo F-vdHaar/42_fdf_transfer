@@ -6,7 +6,7 @@
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 15:54:35 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/04 02:50:01 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/15 18:35:51 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static t_list	*read_file(const char *filename, int *line_count)
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 		return (NULL);
-	line = get_next_line(fd);
+	line = ft_trim(get_next_line(fd), "\n");
 	while (line != NULL)
 	{
 		ft_lstadd_back(&lines, ft_lstnew(line));
@@ -66,15 +66,15 @@ static t_list	*read_file(const char *filename, int *line_count)
 static int	fill_map(t_map *map, t_list *lines)
 {
 	char	**nums;
-	int		i;
-	int		j;
+	int 	i;
+	int 	j;
 
 	i = 0;
 	while (i < map->height)
 	{
 		nums = ft_split(lines->content, ' ');
 		if (!nums)
-			return (0);
+			return (0); 
 		j = 0;
 		while (j < map->width)
 		{

@@ -6,7 +6,7 @@
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 14:10:11 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/04 02:01:13 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/15 19:07:19 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,16 @@ static void	draw_vertical_line(t_renderer *renderer, t_map *map, int x, int y);
 static void	draw_horizontal_line(t_renderer *renderer,
 				t_map *map, int x, int y);
 
+//DEBUG TODO why statr and end is 0
 void	draw_line(t_renderer *renderer, t_point start, t_point end)
 {
+	//DEBUG
+	if (!isnan(end.x) || !isnan(end.y) || !isnan(end.z))
+		ft_printf("VALID  end point values: x=%f, y=%f, z=%f\n", end.x, end.y, end.z);
+	if (isnan(end.x) || isnan(end.y) || isnan(end.z)) {
+		ft_printf("Invalid end point values: x=%f, y=%f, z=%f\n", end.x, end.y, end.z);
+		return;  // Return early or handle the error
+	}
 	bresenham_draw(renderer, start, end);
 }
 

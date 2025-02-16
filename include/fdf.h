@@ -6,7 +6,7 @@
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:10:04 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/13 04:22:47 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/15 16:30:23 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,7 @@ int		**allocate_map(int height, int width);
 int		count_words(const char *str, char delimiter);
 void	free_map(t_map *map);
 void	free_string_array(char **arr);
+void	fix_negative_numbers(char **nums);
 
 // Mouse handling
 int		handle_mouse_move(int x, int y, t_renderer *renderer);

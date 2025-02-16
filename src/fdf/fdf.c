@@ -6,7 +6,7 @@
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 15:21:33 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/13 04:22:21 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/15 18:47:43 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	initialize(int argc, char *argv[], t_renderer **renderer, t_map **map)
 		cleanup(*renderer);
 		exit(EXIT_FAILURE);
 	}
-
+	(*renderer)->map = *map;
 	ft_printf("DEBUG: init camera\n");
 	init_camera(*renderer);  // Initialize camera
 	ft_printf("DEBUG: init mouse\n");
@@ -66,6 +66,7 @@ void	initialize(int argc, char *argv[], t_renderer **renderer, t_map **map)
 	setup_event_hooks(*renderer);
 	ft_printf("DEBUG: render initial\n");
 	render_initial(*renderer);
+	ft_printf("DEBUG: First pixel value = %#x\n", *(int *)(*renderer)->mlx.img_data);
 	ft_printf("DEBUG: mlx loop\n");
 	mlx_loop((*renderer)->mlx.mlx_ptr);
 }
@@ -74,6 +75,7 @@ void	initialize(int argc, char *argv[], t_renderer **renderer, t_map **map)
 static void	render_initial(t_renderer *renderer)
 {
 	render_map(renderer);
+	//draw_pixel(renderer, 200, 200, 0xFF0000);
 	mlx_put_image_to_window(renderer->mlx.mlx_ptr, renderer->mlx.win_ptr,
 		renderer->mlx.img_ptr, 0, 0);
 }

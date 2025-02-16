@@ -6,7 +6,7 @@
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 13:09:07 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/04 02:18:43 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/16 12:43:18 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,10 @@ t_point	project_point(t_renderer *renderer, int x, int y, int z)
 	t_point	projected;
 	float	scale;
 
-	scale = renderer->camera->zoom / (z + renderer->camera->z_height);
+	if (z + renderer->camera->z_height == 0)
+		scale = 0;
+	else 
+		scale = renderer->camera->zoom / (z + renderer->camera->z_height);
 	projected.x = (x - renderer->camera->x_offset) * scale;
 	projected.y = (y - renderer->camera->y_offset) * scale;
 	projected.z = z;
