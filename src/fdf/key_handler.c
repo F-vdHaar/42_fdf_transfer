@@ -6,7 +6,7 @@
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 17:29:27 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/04 02:48:01 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/18 20:57:14 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	handle_keypress(int keycode, t_renderer *renderer)
 		|| keycode == KEY_STRETCH_Z)
 		handle_scale_key(renderer, keycode);
 	render_map(renderer);
-	return (0);
+    return (EXIT_SUCCESS);
 }
 
 static void	handle_scale_key(t_renderer *renderer, int keycode)

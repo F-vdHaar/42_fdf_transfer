@@ -6,7 +6,7 @@
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 13:55:06 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/15 18:39:05 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/18 20:57:31 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	**allocate_map(int height, int width)
 	return (map);
 }
 
-void	free_map(t_map *map)
+int	free_map(t_map *map)
 {
 	int	i;
 
@@ -75,9 +75,10 @@ void	free_map(t_map *map)
 		}
 		free(map);
 	}
+    return (EXIT_SUCCESS);
 }
 
-void	find_z_bounds(t_map *map)
+int	find_z_bounds(t_map *map)
 {
 	int	i;
 	int	j;
@@ -98,4 +99,5 @@ void	find_z_bounds(t_map *map)
 		}
 		i++;
 	}
+    return (EXIT_SUCCESS);
 }

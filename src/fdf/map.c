@@ -6,7 +6,7 @@
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 15:54:35 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/15 18:35:51 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/18 21:31:14 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,30 +15,35 @@
 static t_list	*read_file(const char *filename, int *line_count);
 static int		fill_map(t_map *map, t_list *lines);
 
-void	init_map(t_map **map, const char *filename)
+int	init_map(t_renderer *renderer, const char *filename)
 {
-	*map = (t_map *)malloc(sizeof(t_map));
-	if (!*map)
+
+	t_map * map;
+
+	map = renderer->map;
+	if (!map)
 	{
 		log_error("Failed to allocate memory for map");
 		exit(EXIT_FAILURE);
 	}
-	(*map)->file_content = read_file(filename, &(*map)->height);
-	if (!(*map)->file_content)
+	(map)->file_content = read_file(filename, &(map)->height);
+	if (!(map)->file_content)
 	{
 		log_error("Failed to read map file");
-		free(*map);
+		free(map);
 		exit(EXIT_FAILURE);
 	}
-	(*map)->width = count_words(((char *)(*map)->file_content->content), ' ');
-	(*map)->grid = allocate_map((*map)->height, (*map)->width);
-	if (!(*map)->grid || !fill_map(*map, (*map)->file_content))
+	(map)->width = count_words(((char *)(map)->file_content->content), ' ');
+	(map)->grid = allocate_map((map)->height, (map)->width);
+	if (!(map)->grid || (fill_map(map, (map)->file_content) == EXIT_FAILURE))
 	{
 		log_error("Failed to parse map");
-		free_map(*map);
+		free_map(map);
 		exit(EXIT_FAILURE);
 	}
-	find_z_bounds(*map);
+	find_z_bounds(map);
+	renderer->map = map;
+    return (EXIT_SUCCESS);
 }
 
 static t_list	*read_file(const char *filename, int *line_count)
@@ -86,5 +91,5 @@ static int	fill_map(t_map *map, t_list *lines)
 		i++;
 		lines = lines->next;
 	}
-	return (1);
+    return (EXIT_SUCCESS);
 }

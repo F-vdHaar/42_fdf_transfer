@@ -6,13 +6,13 @@
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:08:24 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/04 02:50:18 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/18 20:58:06 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	init_mouse(t_renderer *renderer)
+int	init_mouse(t_renderer *renderer)
 {
 	renderer->mouse = malloc(sizeof(t_mouse));
 	if (!renderer->mouse)
@@ -26,6 +26,7 @@ void	init_mouse(t_renderer *renderer)
 	renderer->mouse->x = 0;
 	renderer->mouse->y = 0;
 	renderer->mouse->button = 0;
+    return (EXIT_SUCCESS);
 }
 
 int	handle_mouse_press(int button, int x, int y, t_renderer *renderer)
@@ -41,7 +42,7 @@ int	handle_mouse_press(int button, int x, int y, t_renderer *renderer)
 	render_map(renderer);
 	mlx_put_image_to_window(renderer->mlx.mlx_ptr, renderer->mlx.win_ptr,
 		renderer->mlx.img_ptr, 0, 0);
-	return (0);
+    return (EXIT_SUCCESS);
 }
 
 int	handle_mouse_release(t_renderer *renderer)
@@ -50,7 +51,7 @@ int	handle_mouse_release(t_renderer *renderer)
 	render_map(renderer);
 	mlx_put_image_to_window(renderer->mlx.mlx_ptr, renderer->mlx.win_ptr,
 		renderer->mlx.img_ptr, 0, 0);
-	return (0);
+    return (EXIT_SUCCESS);
 }
 
 int	handle_mouse_move(int x, int y, t_renderer *renderer)
@@ -74,10 +75,10 @@ int	handle_mouse_move(int x, int y, t_renderer *renderer)
 	render_map(renderer);
 	mlx_put_image_to_window(renderer->mlx.mlx_ptr, renderer->mlx.win_ptr,
 		renderer->mlx.img_ptr, 0, 0);
-	return (0);
+    return (EXIT_SUCCESS);
 }
 
-void	handle_mouse_zoom(t_renderer *renderer, int button)
+int	handle_mouse_zoom(t_renderer *renderer, int button)
 {
 	if (button == MOUSE_SCROLL_UP)
 		handle_zoom(renderer, 1.1);
@@ -86,4 +87,5 @@ void	handle_mouse_zoom(t_renderer *renderer, int button)
 	render_map(renderer);
 	mlx_put_image_to_window(renderer->mlx.mlx_ptr, renderer->mlx.win_ptr,
 		renderer->mlx.img_ptr, 0, 0);
+    return (EXIT_SUCCESS);
 }

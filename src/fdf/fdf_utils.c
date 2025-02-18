@@ -6,7 +6,7 @@
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 15:25:03 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/04 02:16:48 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/18 20:56:51 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,9 @@ static void	cleanup_renderer(t_renderer *renderer)
 	}
 }
 
-void	cleanup(t_renderer *renderer)
+int	cleanup(t_renderer *renderer)
 {
 	free_map(renderer->map);
 	cleanup_renderer(renderer);
+    return (EXIT_SUCCESS);
 }

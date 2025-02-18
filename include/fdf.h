@@ -6,7 +6,7 @@
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:10:04 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/15 16:30:23 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/18 21:45:20 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@
 
 typedef struct s_point
 {
-	float	x;
-	float	y;
-	float	z;
+	int	x;
+	int	y;
+	int	z;
 	int		color;
 }	t_point;
 
@@ -120,67 +120,68 @@ typedef struct s_renderer
 	int			keymode;
 }	t_renderer;
 
+// Function prototypes
 // FDF functions
-void	initialize(int argc, char *argv[], t_renderer **renderer, t_map **map);
-int		main(int argc, char **argv);
-void	cleanup(t_renderer *renderer);
+int    initialize(t_renderer *renderer, char *filename);
+int     main(int argc, char **argv);
+int    cleanup(t_renderer *renderer);
 
 // Camera functions
-void	init_camera(t_renderer *renderer);
-void	reset_camera(t_renderer *renderer);
+int     init_camera(t_renderer *renderer); // Added return type
+int    reset_camera(t_renderer *renderer);
 t_point	project_point(t_renderer *renderer, int x, int y, int z);
 
 // Event handling
-int		handle_close(t_renderer *renderer);
-int		handle_keypress(int keycode, t_renderer *renderer);
-void	setup_event_hooks(t_renderer *renderer);
+int     handle_close(t_renderer *renderer);
+int     handle_keypress(int keycode, t_renderer *renderer);
+int    setup_event_hooks(t_renderer *renderer);
 
 // Line
-void	draw_line(t_renderer *renderer, t_point start, t_point end);
-void	init_line_params(t_point start, t_point end,
-			t_point *delta, t_point *sign);
+int    draw_map_line(t_renderer *renderer, t_map *map); // If needed
+int    draw_line(t_renderer *renderer, t_point *start, t_point *end);
+int    init_line_params(t_point start, t_point end, t_point *delta, t_point *sign);
 
 // Draw
-void	bresenham_draw(t_renderer *renderer, t_point start, t_point end);
-void	render_map(t_renderer *renderer);
+int    bresenham_draw(t_renderer *renderer, t_point *start, t_point *end);
+int    render_map(t_renderer *renderer);
 
 // Color utils
-int		get_color(t_map *map, int x, int y);
-int		i_color(int color1, int color2, double t);
+int     get_color(t_map *map, int x, int y);
+int     i_color(int color1, int color2, double t);
 
 // Map functions
-void	init_map(t_map **map, const char *filename);
-void	find_z_bounds(t_map *map);
+int		init_map(t_renderer *renderer, const char *filename);
+int    find_z_bounds(t_map *map);
 
 // Map utilities
-int		**allocate_map(int height, int width);
-int		count_words(const char *str, char delimiter);
-void	free_map(t_map *map);
-void	free_string_array(char **arr);
-void	fix_negative_numbers(char **nums);
+int     **allocate_map(int height, int width);
+int     count_words(const char *str, char delimiter);
+int    free_map(t_map *map);
+int    free_string_array(char **arr);
+int    fix_negative_numbers(char **nums);
 
 // Mouse handling
-int		handle_mouse_move(int x, int y, t_renderer *renderer);
-int		handle_mouse_press(int button, int x, int y, t_renderer *renderer);
-int		handle_mouse_release(t_renderer *renderer);
-void	handle_mouse_zoom(t_renderer *renderer, int button);
-void	init_mouse(t_renderer *renderer);
+int     handle_mouse_move(int x, int y, t_renderer *renderer);
+int     handle_mouse_press(int button, int x, int y, t_renderer *renderer);
+int     handle_mouse_release(t_renderer *renderer);
+int    handle_mouse_zoom(t_renderer *renderer, int button);
+int	    init_mouse(t_renderer *renderer);
 
 // Renderer functions
-void	init_renderer(t_renderer *renderer);
-void	put_pixel(t_renderer *renderer, int x, int y, int color);
+int     init_renderer(t_renderer *renderer); // Added return type
+int    put_pixel(t_renderer *renderer, int x, int y, int color);
+int		init_image(t_renderer *renderer); // Added prototype
 
 // Transformations
-void	handle_rotate(t_renderer *renderer,
-			double x_angle, double y_angle, double z_angle);
-void	handle_scale(t_renderer *renderer,
-			double x_scale, double y_scale, double z_scale);
-void	handle_translate(t_renderer *renderer, double dx, double dy);
-void	handle_zoom(t_renderer *renderer, double factor);
-void	rotate_point(t_point *point, t_camera *camera);
+int    handle_rotate(t_renderer *renderer, double x_angle, double y_angle, double z_angle);
+int    handle_scale(t_renderer *renderer, double x_scale, double y_scale, double z_scale);
+int    handle_translate(t_renderer *renderer, double dx, double dy);
+int    handle_zoom(t_renderer *renderer, double factor);
+int    rotate_point(t_point *point, t_camera *camera);
 
-// Utility functions
-void	log_error(const char *message);
-void	print_map(int **map);
+// Debug Utility functions
+int    log_error(const char *message);
+int    print_map(int **map);
+int    debug_render_grid(t_renderer *renderer);
 
 #endif

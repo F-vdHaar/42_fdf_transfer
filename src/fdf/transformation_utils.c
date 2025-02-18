@@ -6,13 +6,13 @@
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 17:01:23 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/04 02:19:37 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/18 20:55:07 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	rotate_point(t_point *point, t_camera *camera)
+int	rotate_point(t_point *point, t_camera *camera)
 {
 	double	temp_x;
 	double	temp_y;
@@ -30,4 +30,5 @@ void	rotate_point(t_point *point, t_camera *camera)
 	temp_y = point->x * sin(camera->z_angle) + point->y * cos(camera->z_angle);
 	point->x = temp_x;
 	point->y = temp_y;
+	return (EXIT_SUCCESS);
 }
