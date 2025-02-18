@@ -6,7 +6,7 @@
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 13:09:07 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/18 21:50:00 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/18 23:57:02 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	calculate_z_height(t_renderer *renderer);
 
 int init_camera(t_renderer *renderer)
 {
-    renderer->camera->zoom = 10;
+    renderer->camera->zoom = 1;
     renderer->camera->x_angle = 0.0f; 
     renderer->camera->y_angle = 0.0f;
     renderer->camera->z_angle = 0.0f;
@@ -25,9 +25,9 @@ int init_camera(t_renderer *renderer)
     renderer->camera->y_scale = 1.0f;
     renderer->camera->z_scale = 1.0f;
     renderer->camera->z_height = calculate_z_height(renderer);
-    renderer->camera->x_offset = renderer->win_width / 2;
-    renderer->camera->y_offset = renderer->win_height / 2;
-    renderer->camera->iso = 1;
+    renderer->camera->x_offset = 0; //renderer->win_width / 2;
+    renderer->camera->y_offset = 0; // renderer->win_height / 2;
+    renderer->camera->iso = -1;
 
     return (EXIT_SUCCESS);
 }
@@ -53,6 +53,7 @@ t_point project_point(t_renderer *renderer, int x, int y, int z)
 {
     t_point projected;
     float scale;
+    float top_down_scale = 50.0f; // This is  for debugging with top own view
 
     ft_printf("DEBUG: [project_point] Input (x = %i, y = %i, z = %i)\n", x, y, z);
 
@@ -62,7 +63,7 @@ t_point project_point(t_renderer *renderer, int x, int y, int z)
     else 
         scale = renderer->camera->zoom / (z + renderer->camera->z_height);
 
-    ft_printf("DEBUG: [project_point] Computed scale = %f\n", scale);
+    ft_printf("DEBUG: [project_point] Computed scale = %\n", scale);
 
     if (renderer->camera->iso)
     {
@@ -76,6 +77,11 @@ t_point project_point(t_renderer *renderer, int x, int y, int z)
 
         ft_printf("DEBUG: [project_point] Isometric projected (x = %i, y = %i)\n",
                   (int)projected.x, (int)projected.y);
+    }
+    else if (renderer->camera->iso == -1)
+    {
+        projected.x = x * top_down_scale;
+        projected.y = y * top_down_scale;
     }
     else
     {

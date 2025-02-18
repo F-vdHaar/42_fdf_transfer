@@ -6,7 +6,7 @@
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 19:18:22 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/18 20:59:01 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/18 23:29:02 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	bresenham_draw(t_renderer *renderer, t_point *start, t_point *end)
 	}
 
 	ft_printf("DEBUG: [bresenham_draw] Finished drawing the line\n");
-	mlx_put_image_to_window(renderer->mlx.mlx_ptr, renderer->mlx.win_ptr, renderer->mlx.img_ptr, 0, 0);
+	//mlx_put_image_to_window(renderer->mlx.mlx_ptr, renderer->mlx.win_ptr, renderer->mlx.img_ptr, 0, 0);
     return (EXIT_SUCCESS);
 }
 
@@ -113,8 +113,6 @@ int	render_map(t_renderer *renderer)
 			ft_printf("DEBUG: [render_map] Rendering column %d (x = %d), grid value = %d\n",
 				x, x, renderer->map->grid[y][x]);
 			draw_map_line(renderer, renderer->map);
-				// TODO check if obsolete
-				//draw_map_lines(renderer, renderer->map, x, y);
 		}
 	}
 
