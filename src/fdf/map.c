@@ -6,7 +6,7 @@
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 15:54:35 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/18 21:31:14 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/20 18:09:20 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	init_map(t_renderer *renderer, const char *filename)
 	}
 	(map)->width = count_words(((char *)(map)->file_content->content), ' ');
 	(map)->grid = allocate_map((map)->height, (map)->width);
+	(map)->color = allocate_map(map->height, map->width);
 	if (!(map)->grid || (fill_map(map, (map)->file_content) == EXIT_FAILURE))
 	{
 		log_error("Failed to parse map");
@@ -43,7 +44,7 @@ int	init_map(t_renderer *renderer, const char *filename)
 	}
 	find_z_bounds(map);
 	renderer->map = map;
-    return (EXIT_SUCCESS);
+	return (EXIT_SUCCESS);
 }
 
 static t_list	*read_file(const char *filename, int *line_count)
@@ -73,23 +74,30 @@ static int	fill_map(t_map *map, t_list *lines)
 	char	**nums;
 	int 	i;
 	int 	j;
+    char *comma;
 
-	i = 0;
-	while (i < map->height)
-	{
-		nums = ft_split(lines->content, ' ');
-		if (!nums)
-			return (0); 
-		j = 0;
-		while (j < map->width)
-		{
-			map->grid[i][j] = ft_atoi(nums[j]);
-			free(nums[j]);
-			j++;
-		}
-		free(nums);
-		i++;
-		lines = lines->next;
-	}
+    i = 0;
+    while (i < map->height) {
+        nums = ft_split(lines->content, ' ');
+        if (!nums) return EXIT_FAILURE;
+
+        j = 0;
+        while (j < map->width) {
+            comma = ft_strchr(nums[j], ',');
+            if (comma) {
+                *comma = '\0'; // Split the string
+                map->grid[i][j] = ft_atoi(nums[j]);
+                map->color[i][j] = ft_atoi_base(comma + 3, "0123456789ABCDEF");
+            } else {
+                map->grid[i][j] = ft_atoi(nums[j]);
+                map->color[i][j] = 0xFFFFFF;
+            }
+            free(nums[j]);
+            j++;
+        }
+        free(nums);
+        i++;
+        lines = lines->next;
+    }
     return (EXIT_SUCCESS);
 }

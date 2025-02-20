@@ -6,7 +6,7 @@
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:10:04 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/18 21:45:20 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/20 17:53:04 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct s_point
 typedef struct s_map
 {
 	int		**grid;
+	int		**color;
 	int		width;
 	int		height;
 	int		z_min;
@@ -183,5 +184,7 @@ int    rotate_point(t_point *point, t_camera *camera);
 int    log_error(const char *message);
 int    print_map(int **map);
 int    debug_render_grid(t_renderer *renderer);
+int	debug_print_nums_char(char **nums);
+int debug_print_map(t_renderer *renderer);
 
 #endif
