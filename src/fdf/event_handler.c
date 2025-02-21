@@ -6,7 +6,7 @@
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 20:06:54 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/18 20:59:15 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/20 12:35:03 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	setup_event_hooks(t_renderer *renderer)
 
 int	handle_close(t_renderer *renderer)
 {
+	mlx_destroy_window(renderer->mlx.mlx_ptr, renderer->mlx.win_ptr);
 	cleanup(renderer);
 	exit(0);
     return (EXIT_SUCCESS);

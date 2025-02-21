@@ -6,13 +6,13 @@
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 19:18:22 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/18 23:29:02 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/21 12:15:35 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static int	calculate_t(t_point *start, t_point *end, t_point cur);
+static double calculate_t(t_point *start, t_point *end, t_point cur);
 
 
 int	bresenham_draw(t_renderer *renderer, t_point *start, t_point *end)
@@ -22,11 +22,12 @@ int	bresenham_draw(t_renderer *renderer, t_point *start, t_point *end)
 	t_point	cur;
 	int		error[2];
 	double	t;
+	int	color;
 
 	if (!start || !end) 
 	{
 		ft_printf("ERROR: start or end is NULL!\n");
-		return;	
+		return (EXIT_FAILURE);	
 	}
 
 	// **Check if both start and end are completely outside the window**
@@ -34,14 +35,12 @@ int	bresenham_draw(t_renderer *renderer, t_point *start, t_point *end)
 		(end->x < 0 || end->x >= renderer->win_width || end->y < 0 || end->y >= renderer->win_height))
 	{
 		ft_printf("WARNING: Line is completely outside the window, skipping drawing.\n");
-		return;
+		return (EXIT_SUCCESS);
 	}
 
-	ft_printf("DEBUG: [bresenham_draw] Start drawing from x = %i, y = %i to x = %i, y = %i\n", 
-		(int)start->x, (int)(start->x), 
-		(int)start->y, (int)(start->y),
-		(int)end->x, (int)(end->x), 
-		(int)end->y, (int)(end->y)) ;
+	ft_printf("DEBUG: [bresenham_draw] Start drawing \n from x = %i, y = %i, color = %i\n to x = %i, y = %i, color = %i\n", 
+		(int)start->x, 	(int)start->y, (int)start->color, 
+		(int)end->x, (int)end->y, (int)(end->color)) ;
 
 	init_line_params(*start, *end, &delta, &sign);
 	error[0] = delta.x - delta.y;
@@ -53,9 +52,8 @@ int	bresenham_draw(t_renderer *renderer, t_point *start, t_point *end)
 		if (cur.x >= 0 && cur.x < renderer->win_width && cur.y >= 0 && cur.y < renderer->win_height)
 		{
 			t = calculate_t(start, end, cur);
-			put_pixel(renderer, cur.x, cur.y, 0xFFFFF);
-
-			//put_pixel(renderer, cur.x, cur.y, i_color(start->color, end->color, t));
+			color = i_color(start->color, end->color, t);
+			put_pixel(renderer, cur.x, cur.y, color);
 		}
 
 		error[1] = 2 * error[0];
@@ -77,26 +75,25 @@ int	bresenham_draw(t_renderer *renderer, t_point *start, t_point *end)
     return (EXIT_SUCCESS);
 }
 
-static int	calculate_t(t_point *start, t_point *end, t_point cur)
+static double calculate_t(t_point *start, t_point *end, t_point cur)
 {
-	int	dx;
-	int	dy;
-	int	line_length;
-	int	cur_length;
+    int dx;
+    int dy;
+    int line_length;
+    int cur_length;
 
-	dx = abs(end->x - start->x);
-	dy = abs(end->y - start->y);
-	line_length = dx;
-	if (dy > dx)
-		line_length = dy;
-	cur_length = abs(cur.x - start->x);
-	if (abs(cur.y - start->y) > cur_length)
-		cur_length = abs(cur.y - start->y);
-	if (line_length == 0)
-		return (0);
-	return (cur_length * 255 / line_length);
+    dx = abs(end->x - start->x);
+    dy = abs(end->y - start->y);
+    line_length = dx;
+    if (dy > dx)
+        line_length = dy;
+    cur_length = abs(cur.x - start->x);
+    if (abs(cur.y - start->y) > cur_length)
+        cur_length = abs(cur.y - start->y);
+    if (line_length == 0)
+        return (0.0); // Return 0.0 as a double
+    return ((double)cur_length / (double)line_length); // Return a double between 0.0 and 1.0
 }
-
 int	render_map(t_renderer *renderer)
 {
 	int	x;

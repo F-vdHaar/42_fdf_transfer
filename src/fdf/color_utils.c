@@ -6,7 +6,7 @@
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 14:13:19 by fvon-de           #+#    #+#             */
-/*   Updated: 2025/02/04 02:18:17 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/20 14:12:09 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	get_color(t_map *map, int x, int y)
 	int		z;
 	double	t;
 
-	z = map->grid[y][x];
+	z = map->color[x][y];
 	if (map->z_max == map->z_min)
 		return (0xFFFFFF);
 	t = (z - map->z_min) / (double)(map->z_max - map->z_min);

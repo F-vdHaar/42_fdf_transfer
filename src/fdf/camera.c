@@ -6,7 +6,7 @@
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 13:09:07 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/20 12:04:42 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/20 18:40:14 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,12 @@ int init_camera(t_renderer *renderer) {
     return (EXIT_SUCCESS);
 }
 
-t_point project_point(t_renderer *renderer, int x, int y, int z) {
+t_point project_point(t_renderer *renderer, int x, int y, int z)
+{
     t_point projected;
     float scale;
 
-    ft_printf("DEBUG: [project_point] Input (x = %i, y = %i, z = %i)\n", x, y, z);
+    // ft_printf("DEBUG: [project_point] Input (x = %i, y = %i, z = %i)\n", x, y, z);
 
     // Calculate base scale from z_height
     if (renderer->camera->z_height == 0)
@@ -44,18 +45,18 @@ t_point project_point(t_renderer *renderer, int x, int y, int z) {
     else
         scale = renderer->camera->zoom / renderer->camera->z_height;
 
-    ft_printf("DEBUG: [project_point] Computed base scale = %f\n", scale);
+    // ft_printf("DEBUG: [project_point] Computed base scale = %f\n", scale);
 
     if (renderer->camera->iso == 1) {
         float temp_x = x * scale * renderer->camera->x_scale * 0.7071f;
         float temp_y = y * scale * renderer->camera->y_scale * 0.7071f;
 
-        ft_printf("DEBUG: [project_point] Isometric temp_x = %f, temp_y = %f\n", temp_x, temp_y);
+        // ft_printf("DEBUG: [project_point] Isometric temp_x = %f, temp_y = %f\n", temp_x, temp_y);
 
         projected.x = temp_x - temp_y;
         projected.y = ((x + y) * scale * 0.7071f) - (z * scale * renderer->camera->z_scale);
 
-        ft_printf("DEBUG: [project_point] Isometric projected (x = %i, y = %i)\n", (int)projected.x, (int)projected.y);
+        // ft_printf("DEBUG: [project_point] Isometric projected (x = %i, y = %i)\n", (int)projected.x, (int)projected.y);
     }
 	else if (renderer->camera->iso == -1) {
         projected.x = x * scale * renderer->camera->x_scale;
@@ -65,7 +66,7 @@ t_point project_point(t_renderer *renderer, int x, int y, int z) {
     projected.z = z;
     center_map(renderer, &projected);
 
-    ft_printf("DEBUG: [project_point] Final projected (x = %i, y = %i, z = %i)\n", (int)projected.x, (int)projected.y, (int)projected.z);
+    // ft_printf("DEBUG: [project_point] Final projected (x = %i, y = %i, z = %i)\n", (int)projected.x, (int)projected.y, (int)projected.z);
 
     return projected;
 }
@@ -74,7 +75,7 @@ static float calculate_z_height(t_renderer *renderer) {
     int z_range;
     int max_dim;
     float scale_x, scale_y, scale_z, scale;
-    float margin = 0.8f; // Adjust this margin as needed
+    float margin = 0.8f;
 
     z_range = renderer->map->z_max - renderer->map->z_min;
     if (z_range <= 0) {

@@ -6,7 +6,7 @@
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 13:55:06 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/18 20:57:31 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/20 15:58:13 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,16 @@ int	free_map(t_map *map)
 				i++;
 			}
 			free(map->grid);
+		}
+		if (map->color)
+		{
+			i = 0;
+			while (i < map->height)
+			{
+				free(map->color[i]);
+				i++;
+			}
+			free(map->color);
 		}
 		free(map);
 	}

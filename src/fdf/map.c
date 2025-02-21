@@ -6,7 +6,7 @@
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 15:54:35 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/20 18:09:20 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/20 18:35:37 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ static int		fill_map(t_map *map, t_list *lines);
 
 int	init_map(t_renderer *renderer, const char *filename)
 {
-
 	t_map * map;
 
 	map = renderer->map;

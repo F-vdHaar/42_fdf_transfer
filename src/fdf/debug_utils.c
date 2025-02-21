@@ -6,7 +6,7 @@
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 14:45:39 by fvon-de           #+#    #+#             */
-/*   Updated: 2025/02/18 20:56:28 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/20 18:02:55 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,50 @@
 
 static void draw_square(t_renderer *renderer, int x, int y, int color);
 
-int	debug_print_nums(char **nums)
+int	debug_print_nums_char(char **nums)
 {
 	int i = 0;
 	if (!nums) {
 		ft_printf("DEBUG : nums is NULL\n");
-		return;
+		return (EXIT_FAILURE);
 	}
 	
 	while (nums[i]) {
 		ft_printf("DEBUG : nums[%d]: \"%s\"\n", i, nums[i]);
+		i++;
+	}
+    return (EXIT_SUCCESS);
+}
+
+int debug_print_map(t_renderer *renderer)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	ft_printf("DEBUG :[debug_print_map] \n map Z values -----------\n");
+	while (i < renderer->map->height)
+	{
+		j = 0;
+		while (j < renderer->map->width)
+		{
+			ft_printf("%d ", renderer->map->grid[i][j]);
+			j++;
+		}
+		write(1, "\n", sizeof(char));
+		i++;
+	}
+	ft_printf("DEBUG :[debug_print_map] \n map  COLOR -----------\n");
+	i = 0;
+	while (i < renderer->map->height)
+	{
+		j = 0;
+		while (j < renderer->map->width)
+		{
+			ft_printf("%d ", renderer->map->color[i][j]);
+			j++;
+		}
+		write(1, "\n", sizeof(char));
 		i++;
 	}
     return (EXIT_SUCCESS);
