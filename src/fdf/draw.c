@@ -6,7 +6,7 @@
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 19:18:22 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/21 12:15:35 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/22 07:51:57 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ int	bresenham_draw(t_renderer *renderer, t_point *start, t_point *end)
 		return (EXIT_SUCCESS);
 	}
 
-	ft_printf("DEBUG: [bresenham_draw] Start drawing \n from x = %i, y = %i, color = %i\n to x = %i, y = %i, color = %i\n", 
+/* 	//ft_printf("DEBUG: [bresenham_draw] Start drawing \n from x = %i, y = %i, color = %i\n to x = %i, y = %i, color = %i\n",
 		(int)start->x, 	(int)start->y, (int)start->color, 
-		(int)end->x, (int)end->y, (int)(end->color)) ;
+		(int)end->x, (int)end->y, (int)(end->color)) ; */
 
 	init_line_params(*start, *end, &delta, &sign);
 	error[0] = delta.x - delta.y;
@@ -70,7 +70,7 @@ int	bresenham_draw(t_renderer *renderer, t_point *start, t_point *end)
 		}
 	}
 
-	ft_printf("DEBUG: [bresenham_draw] Finished drawing the line\n");
+	//ft_printf("DEBUG: [bresenham_draw] Finished drawing the line\n");
 	//mlx_put_image_to_window(renderer->mlx.mlx_ptr, renderer->mlx.win_ptr, renderer->mlx.img_ptr, 0, 0);
     return (EXIT_SUCCESS);
 }
@@ -103,17 +103,17 @@ int	render_map(t_renderer *renderer)
 	y = -1;
 	while (++y < renderer->map->height)
 	{
-		ft_printf("DEBUG: [render_map] Rendering row %d (y = %d)\n", y, y);
+		//ft_printf("DEBUG: [render_map] Rendering row %d (y = %d)\n", y, y);
 		x = -1;
 		while (++x < renderer->map->width)
 		{
-			ft_printf("DEBUG: [render_map] Rendering column %d (x = %d), grid value = %d\n",
-				x, x, renderer->map->grid[y][x]);
+/* 			//ft_printf("DEBUG: [render_map] Rendering column %d (x = %d), grid value = %d\n",
+				x, x, renderer->map->grid[y][x]); */
 			draw_map_line(renderer, renderer->map);
 		}
 	}
-
-	ft_printf("DEBUG: [render_map] Map rendering completed, rows: %d, columns: %d\n", 
-		renderer->map->height, renderer->map->width);
+/* 
+	//ft_printf("DEBUG: [render_map] Map rendering completed, rows: %d, columns: %d\n", 
+		renderer->map->height, renderer->map->width); */
     return (EXIT_SUCCESS);
 }

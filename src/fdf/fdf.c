@@ -6,13 +6,11 @@
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 15:21:33 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/18 23:35:44 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/22 07:43:59 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-static int	draw_window(t_renderer *renderer);
 
 
 int main(int argc, char **argv)
@@ -35,8 +33,10 @@ int main(int argc, char **argv)
 		return EXIT_FAILURE;
 	}
 	draw_window(renderer);
+	mlx_loop_hook(renderer->mlx.mlx_ptr, process_events_wrapper, renderer);
 	mlx_loop(renderer->mlx.mlx_ptr);
 	cleanup(renderer);
+	renderer = NULL;
 	return (EXIT_SUCCESS);
 }
 
@@ -45,14 +45,17 @@ int initialize(t_renderer *renderer, char *filename)
 	renderer->map = malloc(sizeof(t_map));
 	renderer->camera = malloc(sizeof(t_camera));
 	renderer->mouse = malloc(sizeof(t_mouse));
-	if (!renderer->map || !renderer->camera || !renderer->mouse) {
+	renderer->event_queue = malloc(sizeof(t_event_queue));
+	if (!renderer->map || !renderer->camera || !renderer->mouse || !renderer->event_queue ) {
 		log_error("Error: Failed to allocate memory for one or more renderer elements");
 		cleanup(renderer);
-		return EXIT_FAILURE;
+		renderer = NULL;
+		return (EXIT_FAILURE);
 	}
 	ft_memset(renderer->map, 0, sizeof(t_map));
 	ft_memset(renderer->camera, 0, sizeof(t_camera));
 	ft_memset(renderer->mouse, 0, sizeof(t_mouse));
+	ft_memset(renderer->event_queue, 0, sizeof(t_event_queue));
 	if (init_renderer(renderer) == EXIT_FAILURE || 
 	init_map(renderer, filename) == EXIT_FAILURE ||
 	init_camera(renderer) == EXIT_FAILURE ||
@@ -63,12 +66,11 @@ int initialize(t_renderer *renderer, char *filename)
 		cleanup(renderer);
 		return EXIT_FAILURE;
 	}
-	mlx_loop_hook(renderer->mlx.mlx_ptr, (int (*)(void *))draw_window, renderer);
 	return EXIT_SUCCESS;
 }
 
 
-static int	draw_window(t_renderer *renderer)
+int	draw_window(t_renderer *renderer)
 {
 	//debug_render_grid(renderer); 
 	render_map(renderer);

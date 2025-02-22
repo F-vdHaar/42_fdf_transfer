@@ -6,7 +6,7 @@
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 16:15:59 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/18 20:56:46 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/21 21:02:58 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	log_error(const char *message)
 	if (file == NULL)
 	{
 		ft_printf("Could not open error.log for writing\n");
-		return ;
+		return (EXIT_FAILURE);
 	}
 	ft_printf("%s\n", message);
 	fclose(file);

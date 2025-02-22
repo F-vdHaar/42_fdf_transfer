@@ -6,7 +6,7 @@
 #    By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/01 22:19:53 by fvon-der          #+#    #+#              #
-#    Updated: 2025/02/13 03:46:45 by fvon-de          ###   ########.fr        #
+#    Updated: 2025/02/22 07:57:13 by fvon-de          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ RM          = rm -f
 FLAGS		= -Wall -Wextra -Werror -Wunused $(INCLUDE)
 
 # Debug flags (include symbols and sanitizers)
-DEBUG_FLAGS = $(FLAGS) -g -O0 -fsanitize=address -fsanitize=undefined \
+DEBUG_FLAGS =-Wall -Wextra  $(INCLUDE) -g -O0 -fsanitize=address -fsanitize=undefined \
 			  -fno-strict-aliasing -fno-omit-frame-pointer -fstack-protector -DDEBUG -fno-inline
 
 # Libraries to link with (macOS)
@@ -65,7 +65,11 @@ SRC			= $(SRC_DIR)/camera.c \
 			$(SRC_DIR)/line.c \
 			$(SRC_DIR)/map_utils.c \
 			$(SRC_DIR)/transformation.c \
-			$(SRC_DIR)/color_utils.c
+			$(SRC_DIR)/color_utils.c \
+			$(SRC_DIR)/debug_utils.c \
+			$(SRC_DIR)/events.c \
+			$(SRC_DIR)/mlx_events.c \
+			$(SRC_DIR)/mlx_mouse_events.c
 OBJ			= $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 DEBUG_OBJ	= $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/debug_%.o)
 

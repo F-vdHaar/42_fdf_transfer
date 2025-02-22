@@ -6,7 +6,7 @@
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:10:04 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/20 17:53:04 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/21 21:37:43 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@
 # include "libft.h"
 # include "get_next_line.h" 
 # include "ft_printf.h" 
+
+// Event handling and queue
+#define MAX_EVENTS 100
 
 # define MIN_ZOOM 1
 # define MAX_ZOOM 100
@@ -52,6 +55,44 @@
 # define KEY_STRETCH_X 7
 # define KEY_STRETCH_Y 16
 # define KEY_STRETCH_Z 8
+
+
+typedef enum {
+	EVENT_KEY_PRESS,
+	EVENT_MOUSE_PRESS,
+	EVENT_MOUSE_RELEASE,
+	EVENT_MOUSE_MOVE,
+	EVENT_WINDOW_CLOSE,
+	EVENT_WINDOW_RESIZE
+} e_event_type;
+
+typedef struct s_event
+{
+	e_event_type type;
+	union {
+		struct {
+			int keycode;
+		} key;
+		struct {
+			int x;
+			int y;
+			int button;
+		} mouse;
+		struct {
+			int width;
+			int height;
+		} window_resize;
+	} data;
+	
+} t_event;
+
+typedef struct s_event_queue
+{
+	t_event queue[MAX_EVENTS];
+	int head;
+	int tail;
+} t_event_queue;
+
 
 typedef struct s_point
 {
@@ -98,6 +139,7 @@ typedef struct s_mlx
 	int		endian;
 }	t_mlx;
 
+// TODO Overhaul, possibly not needed anymore
 typedef struct s_mouse
 {
 	int		is_pressed;
@@ -114,6 +156,7 @@ typedef struct s_renderer
 	t_map		*map;
 	t_camera	*camera;
 	t_mouse		*mouse;
+	t_event_queue	*event_queue;
 	int			win_width;
 	int			win_height;
 	int			is_focused;
@@ -125,7 +168,9 @@ typedef struct s_renderer
 // FDF functions
 int    initialize(t_renderer *renderer, char *filename);
 int     main(int argc, char **argv);
+//FDF Utils
 int    cleanup(t_renderer *renderer);
+int	draw_window(t_renderer *renderer);
 
 // Camera functions
 int     init_camera(t_renderer *renderer); // Added return type
@@ -133,9 +178,26 @@ int    reset_camera(t_renderer *renderer);
 t_point	project_point(t_renderer *renderer, int x, int y, int z);
 
 // Event handling
-int     handle_close(t_renderer *renderer);
-int     handle_keypress(int keycode, t_renderer *renderer);
 int    setup_event_hooks(t_renderer *renderer);
+void process_events(t_event_queue *event_queue, t_renderer *renderer);
+int process_events_wrapper(void *renderer_ptr);
+void enqueue_event(t_event_queue *event_queue, t_event event) ;
+
+// Events
+int handle_close(t_renderer *renderer);
+int handle_resize(int width, int height, t_renderer *renderer);
+int     handle_keypress(int keycode, t_renderer *renderer);
+
+
+// MLX Events
+int handle_mlx_keypress(int keycode, t_renderer *renderer);
+int handle_mlx_close(t_renderer *renderer);
+int handle_mlx_resize(int width, int height, t_renderer *renderer);
+
+// MLX Mouse Events 
+int handle_mlx_mouse_press(int button, int x, int y, t_renderer *renderer);
+int handle_mlx_mouse_release(int button, int x, int y, t_renderer *renderer);
+int handle_mlx_mouse_move(int x, int y, t_renderer *renderer);
 
 // Line
 int    draw_map_line(t_renderer *renderer, t_map *map); // If needed
