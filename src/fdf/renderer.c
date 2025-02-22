@@ -6,7 +6,7 @@
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 15:10:42 by fvon-de           #+#    #+#             */
-/*   Updated: 2025/02/18 21:02:01 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/22 09:17:28 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int init_renderer(t_renderer *renderer)
     }
     if (init_image(renderer) == EXIT_FAILURE)
 	{
-        mlx_destroy_window(renderer->mlx.mlx_ptr, renderer->mlx.win_ptr);
+        cleanup(renderer);
         return (EXIT_FAILURE);
     }
     return (EXIT_SUCCESS);

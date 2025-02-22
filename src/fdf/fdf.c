@@ -6,7 +6,7 @@
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 15:21:33 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/22 07:43:59 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/22 08:49:38 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int main(int argc, char **argv)
 		free(renderer); // Free if init fails
 		return EXIT_FAILURE;
 	}
-	draw_window(renderer);
+	//draw_window(renderer);
 	mlx_loop_hook(renderer->mlx.mlx_ptr, process_events_wrapper, renderer);
 	mlx_loop(renderer->mlx.mlx_ptr);
 	cleanup(renderer);
