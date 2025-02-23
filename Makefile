@@ -6,7 +6,7 @@
 #    By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/01 22:19:53 by fvon-der          #+#    #+#              #
-#    Updated: 2025/02/22 08:39:43 by fvon-de          ###   ########.fr        #
+#    Updated: 2025/02/22 18:10:46 by fvon-de          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,7 @@ FLAGS		= -Wall -Wextra -Werror -Wunused $(INCLUDE)
 
 # Debug flags (include symbols and sanitizers)
 #-fsanitize=address comment this out when using valgrind
-DEBUG_FLAGS =-Wall -Wextra  $(INCLUDE) -g -O0  -fsanitize=undefined \
+DEBUG_FLAGS =-Wall -Wextra  $(INCLUDE) -g -O0   -fsanitize=undefined \
 			  -fno-strict-aliasing -fno-omit-frame-pointer -fstack-protector -DDEBUG -fno-inline
 
 # Libraries to link with (macOS)

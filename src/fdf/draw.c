@@ -6,7 +6,7 @@
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 19:18:22 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/22 07:51:57 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/23 14:42:25 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,33 +72,32 @@ int	bresenham_draw(t_renderer *renderer, t_point *start, t_point *end)
 
 	//ft_printf("DEBUG: [bresenham_draw] Finished drawing the line\n");
 	//mlx_put_image_to_window(renderer->mlx.mlx_ptr, renderer->mlx.win_ptr, renderer->mlx.img_ptr, 0, 0);
-    return (EXIT_SUCCESS);
+	return (EXIT_SUCCESS);
 }
 
 static double calculate_t(t_point *start, t_point *end, t_point cur)
 {
-    int dx;
-    int dy;
-    int line_length;
-    int cur_length;
+	int dx;
+	int dy;
+	int line_length;
+	int cur_length;
 
-    dx = abs(end->x - start->x);
-    dy = abs(end->y - start->y);
-    line_length = dx;
-    if (dy > dx)
-        line_length = dy;
-    cur_length = abs(cur.x - start->x);
-    if (abs(cur.y - start->y) > cur_length)
-        cur_length = abs(cur.y - start->y);
-    if (line_length == 0)
-        return (0.0); // Return 0.0 as a double
-    return ((double)cur_length / (double)line_length); // Return a double between 0.0 and 1.0
+	dx = abs(end->x - start->x);
+	dy = abs(end->y - start->y);
+	line_length = dx;
+	if (dy > dx)
+		line_length = dy;
+	cur_length = abs(cur.x - start->x);
+	if (abs(cur.y - start->y) > cur_length)
+		cur_length = abs(cur.y - start->y);
+	if (line_length == 0)
+		return (0.0); // Return 0.0 as a double
+	return ((double)cur_length / (double)line_length); // Return a double between 0.0 and 1.0
 }
 int	render_map(t_renderer *renderer)
 {
 	int	x;
 	int	y;
-
 
 	y = -1;
 	while (++y < renderer->map->height)
@@ -112,8 +111,9 @@ int	render_map(t_renderer *renderer)
 			draw_map_line(renderer, renderer->map);
 		}
 	}
+
 /* 
 	//ft_printf("DEBUG: [render_map] Map rendering completed, rows: %d, columns: %d\n", 
 		renderer->map->height, renderer->map->width); */
-    return (EXIT_SUCCESS);
+	return (EXIT_SUCCESS);
 }

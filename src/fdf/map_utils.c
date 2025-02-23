@@ -6,7 +6,7 @@
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 13:55:06 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/20 15:58:13 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/23 12:28:32 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	free_map(t_map *map)
 		}
 		free(map);
 	}
-    return (EXIT_SUCCESS);
+	return (EXIT_SUCCESS);
 }
 
 int	find_z_bounds(t_map *map)
@@ -109,5 +109,5 @@ int	find_z_bounds(t_map *map)
 		}
 		i++;
 	}
-    return (EXIT_SUCCESS);
+	return (EXIT_SUCCESS);
 }

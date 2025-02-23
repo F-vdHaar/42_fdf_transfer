@@ -6,7 +6,7 @@
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 15:25:03 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/22 08:32:01 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/23 12:28:11 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,17 @@ static void	cleanup_renderer(t_renderer *renderer);
 static void	cleanup_mlx(t_mlx *mlx)
 {
 	if (mlx) {
-        ft_printf("DEBUG : [cleanup_mlx] : mlx_ptr = %p, win_ptr = %p\n", mlx->mlx_ptr, mlx->win_ptr);
+		ft_printf("DEBUG : [cleanup_mlx] : mlx_ptr = %p, win_ptr = %p\n", mlx->mlx_ptr, mlx->win_ptr);
 
-        if (mlx->mlx_ptr && mlx->win_ptr) {
-            if(mlx->mlx_ptr && mlx->win_ptr){
-                mlx_destroy_window(mlx->mlx_ptr, mlx->win_ptr);
-            }
-        }
-        if (mlx->img_ptr) {
-            mlx_destroy_image(mlx->mlx_ptr, mlx->img_ptr);
-        }
-    }
+		if (mlx->mlx_ptr && mlx->win_ptr) {
+			if(mlx->mlx_ptr && mlx->win_ptr){
+				mlx_destroy_window(mlx->mlx_ptr, mlx->win_ptr);
+			}
+		}
+		if (mlx->img_ptr) {
+			mlx_destroy_image(mlx->mlx_ptr, mlx->img_ptr);
+		}
+	}
 }
 //mlx is a struct directly inside the t_renderer struct, it is freed when the renderer struct is freed. Therefore, no additional free is needed.
 static void	cleanup_renderer(t_renderer *renderer)

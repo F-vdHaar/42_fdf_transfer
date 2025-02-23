@@ -6,7 +6,7 @@
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 15:21:33 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/22 08:49:38 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/23 14:42:58 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int main(int argc, char **argv)
 		free(renderer); // Free if init fails
 		return EXIT_FAILURE;
 	}
-	//draw_window(renderer);
+	draw_window(renderer);
 	mlx_loop_hook(renderer->mlx.mlx_ptr, process_events_wrapper, renderer);
 	mlx_loop(renderer->mlx.mlx_ptr);
 	cleanup(renderer);
@@ -72,6 +72,11 @@ int initialize(t_renderer *renderer, char *filename)
 
 int	draw_window(t_renderer *renderer)
 {
+	
+    mlx_clear_window(renderer->mlx.mlx_ptr, renderer->mlx.win_ptr);
+    renderer->mlx.img_ptr = mlx_new_image(renderer->mlx.mlx_ptr, renderer->win_width, renderer->win_height);
+    renderer->mlx.img_data = mlx_get_data_addr(renderer->mlx.img_ptr, &renderer->mlx.bits_per_pixel, &renderer->mlx.line_length, &renderer->mlx.endian);
+
 	//debug_render_grid(renderer); 
 	render_map(renderer);
 	//draw_pixel(renderer, 200, 200, 0xFF0000);

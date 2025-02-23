@@ -6,7 +6,7 @@
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 16:15:59 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/21 21:02:58 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/23 12:28:04 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	print_map(int **map)
 		write(1, "\n", sizeof(char));
 		i++;
 	}
-    return (EXIT_SUCCESS);
+	return (EXIT_SUCCESS);
 }
 
 //    ft_printf(file, "%s\n", message);
@@ -45,5 +45,5 @@ int	log_error(const char *message)
 	}
 	ft_printf("%s\n", message);
 	fclose(file);
-    return (EXIT_SUCCESS);
+	return (EXIT_SUCCESS);
 }

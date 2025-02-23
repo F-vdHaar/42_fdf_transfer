@@ -6,7 +6,7 @@
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 15:28:06 by fvon-de           #+#    #+#             */
-/*   Updated: 2025/02/21 17:20:55 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/23 12:28:56 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,12 @@ int	handle_mlx_mouse_release(int button, int x, int y, t_renderer *renderer)
 int	handle_mlx_mouse_move(int x, int y, t_renderer *renderer)
 {
 	t_event	event;
+	(void)renderer;
 
 	event.type = EVENT_MOUSE_MOVE;
 	event.data.mouse.x = x;
 	event.data.mouse.y = y;
+	(void)event;
 	//enqueue_event(renderer->event_queue, event);
 	return (0);
 }

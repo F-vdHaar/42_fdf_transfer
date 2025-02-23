@@ -6,7 +6,7 @@
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 15:54:35 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/20 18:35:37 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/23 12:28:39 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,30 +73,30 @@ static int	fill_map(t_map *map, t_list *lines)
 	char	**nums;
 	int 	i;
 	int 	j;
-    char *comma;
+	char *comma;
 
-    i = 0;
-    while (i < map->height) {
-        nums = ft_split(lines->content, ' ');
-        if (!nums) return EXIT_FAILURE;
+	i = 0;
+	while (i < map->height) {
+		nums = ft_split(lines->content, ' ');
+		if (!nums) return EXIT_FAILURE;
 
-        j = 0;
-        while (j < map->width) {
-            comma = ft_strchr(nums[j], ',');
-            if (comma) {
-                *comma = '\0'; // Split the string
-                map->grid[i][j] = ft_atoi(nums[j]);
-                map->color[i][j] = ft_atoi_base(comma + 3, "0123456789ABCDEF");
-            } else {
-                map->grid[i][j] = ft_atoi(nums[j]);
-                map->color[i][j] = 0xFFFFFF;
-            }
-            free(nums[j]);
-            j++;
-        }
-        free(nums);
-        i++;
-        lines = lines->next;
-    }
-    return (EXIT_SUCCESS);
+		j = 0;
+		while (j < map->width) {
+			comma = ft_strchr(nums[j], ',');
+			if (comma) {
+				*comma = '\0'; // Split the string
+				map->grid[i][j] = ft_atoi(nums[j]);
+				map->color[i][j] = ft_atoi_base(comma + 3, "0123456789ABCDEF");
+			} else {
+				map->grid[i][j] = ft_atoi(nums[j]);
+				map->color[i][j] = 0xFFFFFF;
+			}
+			free(nums[j]);
+			j++;
+		}
+		free(nums);
+		i++;
+		lines = lines->next;
+	}
+	return (EXIT_SUCCESS);
 }

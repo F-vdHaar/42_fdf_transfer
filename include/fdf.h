@@ -6,7 +6,7 @@
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:10:04 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/21 21:37:43 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/23 14:59:23 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,13 @@
 // Event handling and queue
 #define MAX_EVENTS 100
 
-# define MIN_ZOOM 1
-# define MAX_ZOOM 100
+// Zoom Constants
+#define MIN_ZOOM 1.0  // Minimum zoom factor
+#define MAX_ZOOM 100.0 // Maximum zoom factor
+
+// Scale Constants
+#define MIN_SCALE 0.1 // Minimum scale factor
+#define MAX_SCALE 10.0 // Maximum scale factor
 # define MOUSE_SCROLL_UP 4
 # define MOUSE_SCROLL_DOWN 5
 # define MOUSE_LEFT_BUTTON 1
@@ -37,25 +42,49 @@
 # define TRANSLATE_MODE 1
 # define SCALE_MODE 2
 
-// Keycodes
-# define KEY_ESC 53
-# define KEY_UP 126
-# define KEY_DOWN 125
-# define KEY_LEFT 123
-# define KEY_RIGHT 124
-# define KEY_Z_TRANSLATE 6
-# define KEY_ZOOM_IN 24
-# define KEY_ZOOM_OUT 27
-# define KEY_ROTATE_LEFT 0
-# define KEY_ROTATE_RIGHT 2
-# define KEY_ROTATE_X_UP 13
-# define KEY_ROTATE_X_DOWN 1
-# define KEY_ROTATE_Z_LEFT 12
-# define KEY_ROTATE_Z_RIGHT 14
-# define KEY_STRETCH_X 7
-# define KEY_STRETCH_Y 16
-# define KEY_STRETCH_Z 8
+#ifdef __linux__
+    // Linux Key Codes (X11)
+    #define KEY_ESC 65307      // Escape key
+    #define KEY_UP 65362       // Up arrow key
+    #define KEY_DOWN 65364     // Down arrow key
+    #define KEY_LEFT 65361     // Left arrow key
+    #define KEY_RIGHT 65363    // Right arrow key
+    #define KEY_Z_TRANSLATE 116 // 't' key - Example, adjust as needed
+    #define KEY_ZOOM_IN 43       // Plus key (+)
+    #define KEY_ZOOM_OUT 45      // Minus key (-)
+    #define KEY_ROTATE_LEFT 113  // 'q' key - Example, adjust as needed
+    #define KEY_ROTATE_RIGHT 101 // 'e' key - Example, adjust as needed
+    #define KEY_ROTATE_X_UP 119    // 'w' key - Example, adjust as needed
+    #define KEY_ROTATE_X_DOWN 115  // 's' key - Example, adjust as needed
+    #define KEY_ROTATE_Z_LEFT 97   // 'a' key - Example, adjust as needed
+    #define KEY_ROTATE_Z_RIGHT 100 // 'd' key - Example, adjust as needed
+    #define KEY_STRETCH_X 122      // 'z' key - Example, adjust as needed
+    #define KEY_STRETCH_Y 120      // 'x' key - Example, adjust as needed
+    #define KEY_STRETCH_Z 99       // 'c' key - Example, adjust as needed
 
+#elif __APPLE__
+    // macOS Key Codes (Cocoa/Quartz)
+    #define KEY_ESC 53           // Escape key
+    #define KEY_UP 126          // Up arrow key
+    #define KEY_DOWN 125        // Down arrow key
+    #define KEY_LEFT 123        // Left arrow key
+    #define KEY_RIGHT 124       // Right arrow key
+    #define KEY_Z_TRANSLATE 6   // 'z' key
+    #define KEY_ZOOM_IN 24      // Plus key (+)
+    #define KEY_ZOOM_OUT 27     // Minus key (-)
+    #define KEY_ROTATE_LEFT 0   // 'a' key
+    #define KEY_ROTATE_RIGHT 2  // 'd' key
+    #define KEY_ROTATE_X_UP 13  // 'w' key
+    #define KEY_ROTATE_X_DOWN 1 // 's' key
+    #define KEY_ROTATE_Z_LEFT 12 // 'q' key
+    #define KEY_ROTATE_Z_RIGHT 14 // 'e' key
+    #define KEY_STRETCH_X 7     // 'x' key
+    #define KEY_STRETCH_Y 16    // 'y' key
+    #define KEY_STRETCH_Z 8     // 'c' key
+
+#else
+    #error "Unsupported operating system"
+#endif
 
 typedef enum {
 	EVENT_KEY_PRESS,
@@ -238,7 +267,7 @@ int		init_image(t_renderer *renderer); // Added prototype
 // Transformations
 int    handle_rotate(t_renderer *renderer, double x_angle, double y_angle, double z_angle);
 int    handle_scale(t_renderer *renderer, double x_scale, double y_scale, double z_scale);
-int    handle_translate(t_renderer *renderer, double dx, double dy);
+int		handle_translate(t_renderer *renderer, double dx, double dy, double dz);
 int    handle_zoom(t_renderer *renderer, double factor);
 int    rotate_point(t_point *point, t_camera *camera);
 
