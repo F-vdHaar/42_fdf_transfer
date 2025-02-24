@@ -6,7 +6,7 @@
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 17:29:27 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/23 14:46:24 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/24 14:32:01 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,11 +98,9 @@ static void handle_zoom_key(t_renderer *renderer, int keycode)
     printf("DEBUG: handle_zoom_key - Keycode: %d\n", keycode);
 
     if (keycode == KEY_ZOOM_IN) {
-        printf("DEBUG: handle_zoom_key - Calling handle_zoom with factor 1.1.\n");
-        handle_zoom(renderer, 1.1);
+        handle_zoom(renderer, IN_ZOOM);
     } else if (keycode == KEY_ZOOM_OUT) {
-        printf("DEBUG: handle_zoom_key - Calling handle_zoom with factor 0.9.\n");
-        handle_zoom(renderer, 0.9);
+        handle_zoom(renderer, OUT_ZOOM);
     }
 }
 

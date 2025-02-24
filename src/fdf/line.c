@@ -6,7 +6,7 @@
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 14:10:11 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/23 12:28:26 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/24 14:20:45 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ static void draw_horizontal_line(t_renderer *renderer, t_map *map, int x, int y)
 		if ((start.x < 0 || start.x >= renderer->win_width || start.y < 0 || start.y >= renderer->win_height) &&
 			(end.x < 0 || end.x >= renderer->win_width || end.y < 0 || end.y >= renderer->win_height))
 		{
-			ft_printf("DEBUG: Skipping horizontal line from (%d, %d) to (%d, %d) - Out of bounds\n",
-					  (int)start.x, (int)start.y, (int)end.x, (int)end.y);
+			//ft_printf("DEBUG: Skipping horizontal line from (%d, %d) to (%d, %d) - Out of bounds\n",
+					  //(int)start.x, (int)start.y, (int)end.x, (int)end.y);
 			return;
 		}
 
@@ -80,8 +80,8 @@ static void draw_vertical_line(t_renderer *renderer, t_map *map, int x, int y)
 		if ((start.x < 0 || start.x >= renderer->win_width || start.y < 0 || start.y >= renderer->win_height) &&
 			(end.x < 0 || end.x >= renderer->win_width || end.y < 0 || end.y >= renderer->win_height))
 		{
-			ft_printf("DEBUG: Skipping vertical line from (%d, %d) to (%d, %d) - Out of bounds\n",
-					  (int)start.x, (int)start.y, (int)end.x, (int)end.y);
+			//ft_printf("DEBUG: Skipping vertical line from (%d, %d) to (%d, %d) - Out of bounds\n",
+				//	  (int)start.x, (int)start.y, (int)end.x, (int)end.y);
 			return;
 		}
 

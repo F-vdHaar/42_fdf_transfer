@@ -6,7 +6,7 @@
 /*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:10:04 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/23 14:59:23 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/24 17:51:34 by fvon-de          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@
 // Zoom Constants
 #define MIN_ZOOM 1.0  // Minimum zoom factor
 #define MAX_ZOOM 100.0 // Maximum zoom factor
+# define  OUT_ZOOM 0.9
+# define  IN_ZOOM 1.1
 
 // Scale Constants
 #define MIN_SCALE 0.1 // Minimum scale factor
@@ -144,7 +146,7 @@ typedef struct s_map
 
 typedef struct s_camera
 {
-	int		zoom;
+	float		zoom;
 	float	x_angle;
 	float	y_angle;
 	float	z_angle;
@@ -237,6 +239,12 @@ int    init_line_params(t_point start, t_point end, t_point *delta, t_point *sig
 int    bresenham_draw(t_renderer *renderer, t_point *start, t_point *end);
 int    render_map(t_renderer *renderer);
 
+// Projection
+t_point	project_point(t_renderer *renderer, int x, int y, int z);
+
+// Rotation
+t_point	rotate_point(t_renderer *renderer, t_point point);
+
 // Color utils
 int     get_color(t_map *map, int x, int y);
 int     i_color(int color1, int color2, double t);
@@ -269,7 +277,6 @@ int    handle_rotate(t_renderer *renderer, double x_angle, double y_angle, doubl
 int    handle_scale(t_renderer *renderer, double x_scale, double y_scale, double z_scale);
 int		handle_translate(t_renderer *renderer, double dx, double dy, double dz);
 int    handle_zoom(t_renderer *renderer, double factor);
-int    rotate_point(t_point *point, t_camera *camera);
 
 // Debug Utility functions
 int    log_error(const char *message);

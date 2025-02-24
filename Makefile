@@ -6,7 +6,7 @@
 #    By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/01 22:19:53 by fvon-der          #+#    #+#              #
-#    Updated: 2025/02/22 18:10:46 by fvon-de          ###   ########.fr        #
+#    Updated: 2025/02/24 17:50:50 by fvon-de          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,7 +70,9 @@ SRC			= $(SRC_DIR)/camera.c \
 			$(SRC_DIR)/debug_utils.c \
 			$(SRC_DIR)/events.c \
 			$(SRC_DIR)/mlx_events.c \
-			$(SRC_DIR)/mlx_mouse_events.c
+			$(SRC_DIR)/mlx_mouse_events.c \
+			$(SRC_DIR)/projection.c \
+			$(SRC_DIR)/rotation.c
 OBJ			= $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 DEBUG_OBJ	= $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/debug_%.o)
 
