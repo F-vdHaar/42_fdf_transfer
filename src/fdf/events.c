@@ -3,45 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: fvon-der <fvon-der@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 15:25:23 by fvon-de           #+#    #+#             */
-/*   Updated: 2025/02/23 12:27:58 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/25 22:43:50 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int handle_close(t_renderer *renderer) {
-	if (!renderer || !renderer->mlx.mlx_ptr || !renderer->mlx.win_ptr) {
+int	handle_mlx_close(void *param)
+{
+	t_renderer	*renderer;
+
+	renderer = (t_renderer *)param;
+	if (!renderer)
+	{
 		return (EXIT_FAILURE);
 	}
-//    mlx_destroy_window(renderer->mlx.mlx_ptr, renderer->mlx.win_ptr);
 	cleanup(renderer);
-	renderer = NULL;
 	exit(EXIT_SUCCESS);
+	return (EXIT_SUCCESS);
 }
 
-int handle_resize(int width, int height, t_renderer *renderer) {
-	if (!renderer || !renderer->mlx.mlx_ptr || !renderer->mlx.win_ptr) {
+int	handle_mlx_resize(int32_t width, int32_t height, void *param)
+{
+	t_renderer	*renderer;
+
+	renderer = (t_renderer *)param;
+	if (!renderer)
+	{
 		return (EXIT_FAILURE);
 	}
-
-	// Update renderer dimensions:
 	renderer->win_width = width;
 	renderer->win_height = height;
-
-	// Recreate image buffer:
-	if (renderer->mlx.img_ptr) {
-		mlx_destroy_image(renderer->mlx.mlx_ptr, renderer->mlx.img_ptr);
+	if (renderer->image)
+	{
+		mlx_resize_image(renderer->image, width, height);
 	}
-	renderer->mlx.img_ptr = mlx_new_image(renderer->mlx.mlx_ptr, width, height);
-	if (!renderer->mlx.img_ptr) {
-		return (EXIT_FAILURE); // Handle error
-	}
-	renderer->mlx.img_data = mlx_get_data_addr(renderer->mlx.img_ptr, &renderer->mlx.bits_per_pixel, &renderer->mlx.line_length, &renderer->mlx.endian);
-
-	// Redraw the map:
 	draw_window(renderer);
 	return (EXIT_SUCCESS);
 }

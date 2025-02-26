@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   renderer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: fvon-der <fvon-der@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 15:10:42 by fvon-de           #+#    #+#             */
-/*   Updated: 2025/02/23 12:29:10 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/26 15:08:02 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,59 +16,42 @@ int	init_image(t_renderer *renderer);
 
 int	put_pixel(t_renderer *renderer, int x, int y, int color)
 {
-	char	*dst;
+	int	pixel_index;
 
-	if (x >= 0 && x < renderer->win_width
-		&& y >= 0 && y < renderer->win_height)
+	if (x >= 0 && x < renderer->win_width && y >= 0 && y < renderer->win_height)
 	{
-		dst = renderer->mlx.img_data + (y * renderer->mlx.line_length
-				+ x * (renderer->mlx.bits_per_pixel / 8));
-		*(unsigned int *)dst = color;
+		pixel_index = (y * renderer->win_width + x) * 4;
+		if (pixel_index + 3 < renderer->mlx->width * renderer->mlx->height * 4)
+		{
+			renderer->image->pixels[pixel_index + 0] = (color >> 24) & 0xFF;
+			renderer->image->pixels[pixel_index + 1] = (color >> 16) & 0xFF;
+			renderer->image->pixels[pixel_index + 2] = (color >> 8) & 0xFF;
+			renderer->image->pixels[pixel_index + 3] = color & 0xFF;
+		}
 	}
 	return (EXIT_SUCCESS);
 }
 
-int init_renderer(t_renderer *renderer)
+int	init_renderer(t_renderer *renderer)
 {
-	renderer->mlx.mlx_ptr = mlx_init();
-	if (!renderer->mlx.mlx_ptr)
+	renderer->win_width = 800;
+	renderer->win_height = 600;
+	renderer->is_focused = 1;
+	renderer->keymode = 0;
+	renderer->mlx = mlx_init(renderer->win_width,
+		renderer->win_height, "FDF", 0);
+	if (!renderer->mlx->window)
 	{
 		log_error("Error: Failed to initialize MLX");
 		return (EXIT_FAILURE);
 	}
-	renderer->win_width = 800;
-	renderer->win_height = 600;
-	renderer->mlx.win_ptr = mlx_new_window(renderer->mlx.mlx_ptr,
-										   renderer->win_width, renderer->win_height, "FdF");
-	if (!renderer->mlx.win_ptr)
+	renderer->image = mlx_new_image(renderer->mlx,
+			renderer->win_width, renderer->win_height);
+	if (!renderer->image)
 	{
-		log_error("Error: Failed to create window");
+		log_error("Error: Failed to create image");
+		mlx_terminate(renderer->mlx);
 		return (EXIT_FAILURE);
-	}
-	if (init_image(renderer) == EXIT_FAILURE)
-	{
-		cleanup(renderer);
-		return (EXIT_FAILURE);
-	}
-	return (EXIT_SUCCESS);
-}
-
-int init_image(t_renderer *renderer)
-{
-	renderer->mlx.img_ptr = mlx_new_image(renderer->mlx.mlx_ptr,
-										   renderer->win_width, renderer->win_height);
-	if (!renderer->mlx.img_ptr)
-	{
-		log_error("Error creating image");
-		return (EXIT_FAILURE);
-	}
-	renderer->mlx.img_data = mlx_get_data_addr(renderer->mlx.img_ptr,
-											   &renderer->mlx.bits_per_pixel, &renderer->mlx.line_length,
-											   &renderer->mlx.endian);
-	if (!renderer->mlx.img_data)
-	{
-		mlx_destroy_image(renderer->mlx.mlx_ptr, renderer->mlx.img_ptr);
-		return (EXIT_FAILURE); 
 	}
 	return (EXIT_SUCCESS);
 }

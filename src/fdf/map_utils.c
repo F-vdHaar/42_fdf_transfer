@@ -3,14 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   map_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: fvon-der <fvon-der@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 13:55:06 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/23 12:28:32 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/26 15:38:29 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fdf.h>
+
+static	void	del_content(void *content);
+
+static void	del_content(void *content)
+{
+	free(content);
+}
 
 int	count_words(const char *str, char delimiter)
 {
@@ -83,6 +90,8 @@ int	free_map(t_map *map)
 			}
 			free(map->color);
 		}
+		if (map->file_content)
+			ft_lstclear(&map->file_content, del_content);
 		free(map);
 	}
 	return (EXIT_SUCCESS);

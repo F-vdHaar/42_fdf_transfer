@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: fvon-der <fvon-der@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 15:54:35 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/23 12:28:39 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/26 15:46:27 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	init_map(t_renderer *renderer, const char *filename)
 	if (!(map)->file_content)
 	{
 		log_error("Failed to read map file");
-		free(map);
+		cleanup(renderer);
 		exit(EXIT_FAILURE);
 	}
 	(map)->width = count_words(((char *)(map)->file_content->content), ' ');
@@ -46,39 +46,40 @@ int	init_map(t_renderer *renderer, const char *filename)
 	return (EXIT_SUCCESS);
 }
 
-static t_list	*read_file(const char *filename, int *line_count)
-{
-	int		fd;
-	char	*line;
-	t_list	*lines;
+static t_list *read_file(const char *filename, int *line_count) {
+	int fd;
+	char *line;
+	char *trimmed_line; // Store the trimmed line
+	t_list *lines;
 
 	lines = NULL;
 	*line_count = 0;
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 		return (NULL);
-	line = ft_trim(get_next_line(fd), "\n");
-	while (line != NULL)
-	{
-		ft_lstadd_back(&lines, ft_lstnew(line));
+	line = get_next_line(fd); // Get the raw line
+	while (line != NULL) {
+		trimmed_line = ft_trim(line, "\n"); // Trim the line
+		free(line); // Free the original line from get_next_line
+		ft_lstadd_back(&lines, ft_lstnew(trimmed_line)); // Add the trimmed line to the list
 		(*line_count)++;
-		line = get_next_line(fd);
+		line = get_next_line(fd); // Get the next line
 	}
 	close(fd);
 	return (lines);
 }
 
-static int	fill_map(t_map *map, t_list *lines)
-{
-	char	**nums;
-	int 	i;
-	int 	j;
+static int fill_map(t_map *map, t_list *lines) {
+	char **nums;
+	int i;
+	int j;
 	char *comma;
 
 	i = 0;
 	while (i < map->height) {
 		nums = ft_split(lines->content, ' ');
-		if (!nums) return EXIT_FAILURE;
+		if (!nums)
+			return EXIT_FAILURE;
 
 		j = 0;
 		while (j < map->width) {
@@ -86,7 +87,12 @@ static int	fill_map(t_map *map, t_list *lines)
 			if (comma) {
 				*comma = '\0'; // Split the string
 				map->grid[i][j] = ft_atoi(nums[j]);
-				map->color[i][j] = ft_atoi_base(comma + 3, "0123456789ABCDEF");
+				if(comma + 3){ //Added check here.
+					map->color[i][j] = ft_atoi_base(comma + 3, "0123456789ABCDEF");
+				} else {
+					map->color[i][j] = 0; // or some default color, or error handling
+				}
+
 			} else {
 				map->grid[i][j] = ft_atoi(nums[j]);
 				map->color[i][j] = 0xFFFFFF;

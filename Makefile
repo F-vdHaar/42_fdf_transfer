@@ -6,7 +6,7 @@
 #    By: fvon-der <fvon-der@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/01 22:19:53 by fvon-der          #+#    #+#              #
-#    Updated: 2025/02/26 13:26:16 by fvon-der         ###   ########.fr        #
+#    Updated: 2025/02/26 15:13:28 by fvon-der         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,7 +60,6 @@ SRC          = $(SRC_DIR)/camera.c \
 			   $(SRC_DIR)/color_utils.c \
 			   $(SRC_DIR)/debug_utils.c \
 			   $(SRC_DIR)/events.c \
-			   $(SRC_DIR)/mlx_events.c \
 			   $(SRC_DIR)/projection.c \
 			   $(SRC_DIR)/rotation.c
 OBJ          = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
