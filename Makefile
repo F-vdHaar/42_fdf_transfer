@@ -6,7 +6,7 @@
 #    By: fvon-der <fvon-der@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/01 22:19:53 by fvon-der          #+#    #+#              #
-#    Updated: 2025/02/27 08:17:33 by fvon-der         ###   ########.fr        #
+#    Updated: 2025/02/27 14:03:10 by fvon-der         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -129,11 +129,8 @@ clean:
 fclean: clean
 	@echo "$(RED)Cleaning executables and libraries...$(RESET_COLOR)"
 	@$(RM) $(NAME) $(NAME_DEBUG)
-	@$(MAKE) fclean -C $(LIB42_DIR)
-	@if [ -d "$(MLX_DIR)" ]; then \
-		$(MAKE) clean -C $(MLX_DIR); \
-		rm -rf $(MLX_DIR)/build; \
-	fi
+	@rm -rf $(MLX_DIR)
+	@rm -rf $(LIB42_DIR)
 	@echo "$(GREEN)All files cleaned.$(RESET_COLOR)"
 
 
