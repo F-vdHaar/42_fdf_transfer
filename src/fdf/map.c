@@ -6,7 +6,7 @@
 /*   By: fvon-der <fvon-der@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 15:54:35 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/27 08:04:23 by fvon-der         ###   ########.fr       */
+/*   Updated: 2025/02/27 18:46:10 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	init_map(t_renderer *renderer, const char *filename)
 	map = renderer->map;
 	if (!map)
 	{
-		log_error("Failed to allocate memory for map");
+		log_error("[init_map] Failed to allocate memory for map");
 		exit(EXIT_FAILURE);
 	}
 	(map)->file_content = read_file(filename, &(map)->height);
@@ -56,7 +56,10 @@ static t_list	*read_file(const char *filename, int *line_count)
 	*line_count = 0;
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
+	{
+		log_error("[read_file] Invalid FD");
 		return (NULL);
+	}
 	line = get_next_line(fd);
 	while (line != NULL)
 	{

@@ -6,7 +6,7 @@
 /*   By: fvon-der <fvon-der@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 15:21:33 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/27 07:34:56 by fvon-der         ###   ########.fr       */
+/*   Updated: 2025/02/27 18:54:40 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	main(int argc, char **argv)
 	renderer->need_redraw = 1;
 	if (initialize(renderer, argv[1]) == EXIT_FAILURE)
 		return (free(renderer), EXIT_FAILURE);
+	debug_print_map(renderer);
 	draw_window(renderer);
 	mlx_loop(renderer->mlx);
 	cleanup(renderer);

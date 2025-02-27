@@ -6,7 +6,7 @@
 /*   By: fvon-der <fvon-der@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 14:45:39 by fvon-de           #+#    #+#             */
-/*   Updated: 2025/02/27 08:40:11 by fvon-der         ###   ########.fr       */
+/*   Updated: 2025/02/27 18:57:03 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	debug_print_map(t_renderer *renderer)
 	int	j;
 
 	i = 0;
+	ft_printf("DEBUG : Map Z values\n");
 	while (i < renderer->map->height)
 	{
 		j = 0;
@@ -50,11 +51,15 @@ int	debug_print_map(t_renderer *renderer)
 		i++;
 	}
 	i = 0;
+	ft_printf("DEBUG : Map Color values\n");
 	while (i < renderer->map->height)
 	{
 		j = 0;
 		while (j < renderer->map->width)
+		{
+			ft_printf("%d ", renderer->map->color[i][j]);
 			j++;
+		}
 		write(1, "\n", sizeof(char));
 		i++;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf_test_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: fvon-der <fvon-der@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 16:15:59 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/23 12:28:04 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/27 18:45:30 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,17 @@ int	print_map(int **map)
 //    ft_printf(file, "%s\n", message);
 int	log_error(const char *message)
 {
-	FILE	*file;
+	int	fd;
 
-	file = fopen("error.log", "a");
-	if (file == NULL)
+	fd = open("error.log", O_WRONLY | O_APPEND | O_CREAT, 0644);
+	if (fd == -1)
 	{
-		ft_printf("Could not open error.log for writing\n");
+		write(2, "Could not open error.log for writing\n", 37);
 		return (EXIT_FAILURE);
 	}
-	ft_printf("%s\n", message);
-	fclose(file);
+	ft_printf("%s \n", message);
+	write(fd, message, strlen(message));
+	write(fd, "\n", 1);
+	close(fd);
 	return (EXIT_SUCCESS);
 }
