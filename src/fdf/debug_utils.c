@@ -6,13 +6,13 @@
 /*   By: fvon-der <fvon-der@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 14:45:39 by fvon-de           #+#    #+#             */
-/*   Updated: 2025/02/27 06:59:35 by fvon-der         ###   ########.fr       */
+/*   Updated: 2025/02/27 08:40:11 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static void	draw_square(t_renderer *renderer, int x, int y, int color);
+/* static void	draw_square(t_renderer *renderer, int x, int y, int color); */
 
 int	debug_print_nums_char(char **nums)
 {
@@ -61,7 +61,7 @@ int	debug_print_map(t_renderer *renderer)
 	return (EXIT_SUCCESS);
 }
 
-static void	draw_square(t_renderer *renderer, int x, int y, int color)
+/* static void	draw_square(t_renderer *renderer, int x, int y, int color)
 {
 	int	square_size;
 	int	i;
@@ -82,9 +82,9 @@ static void	draw_square(t_renderer *renderer, int x, int y, int color)
 		}
 		i++;
 	}
-}
+} */
 
-int	debug_render_grid(t_renderer *renderer)
+/* int	debug_render_grid(t_renderer *renderer)
 {
 	int		x;
 	int		y;
@@ -102,4 +102,4 @@ int	debug_render_grid(t_renderer *renderer)
 		y++;
 	}
 	return (EXIT_SUCCESS);
-}
+} */

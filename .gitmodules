@@ -1,4 +1,0 @@
-[submodule "lib"]
-	path = lib/lib42
-	url = git@github.com:F-vdHaar/42_lib.git
-	branch = main

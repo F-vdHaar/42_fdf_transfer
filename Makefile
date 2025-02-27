@@ -6,7 +6,7 @@
 #    By: fvon-der <fvon-der@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/01 22:19:53 by fvon-der          #+#    #+#              #
-#    Updated: 2025/02/26 15:13:28 by fvon-der         ###   ########.fr        #
+#    Updated: 2025/02/27 08:17:33 by fvon-der         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,6 @@ SRC          = $(SRC_DIR)/camera.c \
 			   $(SRC_DIR)/fdf_test_utils.c \
 			   $(SRC_DIR)/key_handler.c \
 			   $(SRC_DIR)/map.c \
-			   $(SRC_DIR)/transformation_utils.c \
 			   $(SRC_DIR)/draw.c \
 			   $(SRC_DIR)/fdf.c \
 			   $(SRC_DIR)/fdf_utils.c \

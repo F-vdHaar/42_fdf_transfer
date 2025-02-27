@@ -6,77 +6,69 @@
 /*   By: fvon-der <fvon-der@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 19:18:22 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/27 07:41:45 by fvon-der         ###   ########.fr       */
+/*   Updated: 2025/02/27 08:38:38 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
 static double	calculate_t(t_point *start, t_point *end, t_point cur);
-static void		draw_line_pixels(t_renderer *renderer, t_point *start,
-					t_point *end, t_point delta);
-static void		draw_pixel_if_visible(t_renderer *renderer, t_point *cur,
-					t_point *start, t_point *end);
-static void		update_error_and_position(t_point *cur, t_point sign,
-					int error[2], t_point delta);
-
-static void	update_error_and_position(t_point *cur, t_point sign,
-	int error[2], t_point delta)
-{
-	error[1] = 2 * error[0];
-	if (error[1] > -delta.y)
-	{
-		error[0] -= delta.y;
-		cur->x += sign.x;
-	}
-	if (error[1] < delta.x)
-	{
-		error[0] += delta.x;
-		cur->y += sign.y;
-	}
-}
-
-static void	draw_pixel_if_visible(t_renderer *renderer, t_point *cur,
-	t_point *start, t_point *end)
-{
-	double	t;
-	int		color;
-
-	if (cur->x >= 0 && cur->x < renderer->win_width
-		&& cur->y >= 0 && cur->y < renderer->win_height)
-	{
-		t = calculate_t(start, end, *cur);
-		color = i_color(start->color, end->color, t);
-		put_pixel(renderer, cur->x, cur->y, color);
-	}
-}
-
-static void	draw_line_pixels(t_renderer *renderer, t_point *start,
-	t_point *end, t_point delta)
-{
-	t_point	sign;
-	t_point	cur;
-	int		error[2];
-
-	init_line_params(*start, *end, &delta, &sign);
-	error[0] = delta.x - delta.y;
-	cur = *start;
-	while (cur.x != end->x || cur.y != end->y)
-	{
-		draw_pixel_if_visible(renderer, &cur, start, end);
-		update_error_and_position(&cur, sign, error, delta);
-	}
-}
 
 int	bresenham_draw(t_renderer *renderer, t_point *start, t_point *end)
 {
 	t_point	delta;
+	t_point	sign;
+	t_point	cur;
+	int		error[2];
+	double	t;
+	int	color;
 
-	if (is_outside_window(renderer, start, end))
+	if (!start || !end) 
+	{
+		ft_printf("ERROR: start or end is NULL!\n");
+		return (EXIT_FAILURE);	
+	}
+
+	// **Check if both start and end are completely outside the window**
+	if ((start->x < 0 || start->x >= renderer->win_width || start->y < 0 || start->y >= renderer->win_height) &&
+		(end->x < 0 || end->x >= renderer->win_width || end->y < 0 || end->y >= renderer->win_height))
+	{
+		ft_printf("WARNING: Line is completely outside the window, skipping drawing.\n");
 		return (EXIT_SUCCESS);
-	delta.x = abs(end->x - start->x);
-	delta.y = abs(end->y - start->y);
-	draw_line_pixels(renderer, start, end, delta);
+	}
+
+/* 	//ft_printf("DEBUG: [bresenham_draw] Start drawing \n from x = %i, y = %i, color = %i\n to x = %i, y = %i, color = %i\n",
+		(int)start->x, 	(int)start->y, (int)start->color, 
+		(int)end->x, (int)end->y, (int)(end->color)) ; */
+
+	init_line_params(*start, *end, &delta, &sign);
+	error[0] = delta.x - delta.y;
+	cur = *start;
+
+	while (cur.x != end->x || cur.y != end->y)
+	{
+		// **Only draw if the current point is inside the window boundaries**
+		if (cur.x >= 0 && cur.x < renderer->win_width && cur.y >= 0 && cur.y < renderer->win_height)
+		{
+			t = calculate_t(start, end, cur);
+			color = i_color(start->color, end->color, t);
+			put_pixel(renderer, cur.x, cur.y, color);
+		}
+
+		error[1] = 2 * error[0];
+
+		if (error[1] > -delta.y)
+		{
+			error[0] -= delta.y;
+			cur.x += sign.x;
+		}
+		if (error[1] < delta.x)
+		{
+			error[0] += delta.x;
+			cur.y += sign.y;
+		}
+	}
+	//mlx_put_image_to_window(renderer->mlx.mlx_ptr, renderer->mlx.win_ptr, renderer->mlx.img_ptr, 0, 0);
 	return (EXIT_SUCCESS);
 }
 
