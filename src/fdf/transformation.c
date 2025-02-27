@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   transformation.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: fvon-der <fvon-der@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 16:53:43 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/24 18:06:11 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/27 06:32:09 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,22 +34,26 @@ int handle_zoom(t_renderer *renderer, double factor)
 	}
 	return (EXIT_SUCCESS);
 }
-	
-int handle_scale(t_renderer *renderer, double x_scale,
+
+int	handle_scale(t_renderer *renderer, double x_scale,
 		double y_scale, double z_scale)
 {
-	if (renderer->camera->x_scale * x_scale > MIN_SCALE && renderer->camera->x_scale * x_scale < MAX_SCALE)
+	if (renderer->camera->x_scale * x_scale > MIN_SCALE
+		&& renderer->camera->x_scale * x_scale < MAX_SCALE)
 		renderer->camera->x_scale *= x_scale;
-	if (renderer->camera->y_scale * y_scale > MIN_SCALE && renderer->camera->y_scale * y_scale < MAX_SCALE)
+	if (renderer->camera->y_scale * y_scale > MIN_SCALE
+		&& renderer->camera->y_scale * y_scale < MAX_SCALE)
 		renderer->camera->y_scale *= y_scale;
-	if (renderer->camera->z_scale * z_scale > MIN_SCALE && renderer->camera->z_scale * z_scale < MAX_SCALE)
+	if (renderer->camera->z_scale * z_scale > MIN_SCALE
+		&& renderer->camera->z_scale * z_scale < MAX_SCALE)
 		renderer->camera->z_scale *= z_scale;
 	return (EXIT_SUCCESS);
 }
 
-int		handle_rotate(t_renderer *renderer, double x_angle,
+int	handle_rotate(t_renderer *renderer, double x_angle,
 	double y_angle, double z_angle)
 {
+	printf("DEBUG: handle_rotate: x %f, y %f z %f \n" , x_angle, y_angle, z_angle);
 	renderer->camera->x_angle += x_angle;
 	renderer->camera->y_angle += y_angle;
 	renderer->camera->z_angle += z_angle;
