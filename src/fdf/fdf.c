@@ -6,7 +6,7 @@
 /*   By: fvon-der <fvon-der@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 15:21:33 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/26 15:12:36 by fvon-der         ###   ########.fr       */
+/*   Updated: 2025/02/27 07:34:56 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	initialize(t_renderer *renderer, char *filename)
 		|| init_map(renderer, filename) == EXIT_FAILURE
 		|| init_camera(renderer) == EXIT_FAILURE
 		|| setup_event_hooks(renderer) == EXIT_FAILURE)
-		{
+	{
 		log_error("Error: Failed to initialize one or more renderer elements");
 		cleanup(renderer);
 		return (EXIT_FAILURE);

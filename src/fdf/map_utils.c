@@ -6,7 +6,7 @@
 /*   By: fvon-der <fvon-der@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 13:55:06 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/26 15:38:29 by fvon-der         ###   ########.fr       */
+/*   Updated: 2025/02/27 07:42:55 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,32 +68,25 @@ int	free_map(t_map *map)
 {
 	int	i;
 
-	if (map)
+	if (!map)
+		return (EXIT_SUCCESS);
+	if (map->grid || map->color)
 	{
-		if (map->grid)
+		i = 0;
+		while (i < map->height)
 		{
-			i = 0;
-			while (i < map->height)
-			{
+			if (map->grid)
 				free(map->grid[i]);
-				i++;
-			}
-			free(map->grid);
-		}
-		if (map->color)
-		{
-			i = 0;
-			while (i < map->height)
-			{
+			if (map->color)
 				free(map->color[i]);
-				i++;
-			}
-			free(map->color);
+			i++;
 		}
-		if (map->file_content)
-			ft_lstclear(&map->file_content, del_content);
-		free(map);
+		free(map->grid);
+		free(map->color);
 	}
+	if (map->file_content)
+		ft_lstclear(&map->file_content, del_content);
+	free(map);
 	return (EXIT_SUCCESS);
 }
 

@@ -6,7 +6,7 @@
 /*   By: fvon-der <fvon-der@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 14:45:39 by fvon-de           #+#    #+#             */
-/*   Updated: 2025/02/25 22:40:34 by fvon-der         ###   ########.fr       */
+/*   Updated: 2025/02/27 06:59:35 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,6 @@ int	debug_render_grid(t_renderer *renderer)
 {
 	int		x;
 	int		y;
-	int		color;
-	int		value;
 
 	y = 0;
 	while (y < renderer->map->height)
@@ -97,16 +95,8 @@ int	debug_render_grid(t_renderer *renderer)
 		x = 0;
 		while (x < renderer->map->width)
 		{
-			value = renderer->map->grid[y][x];
-			if (value == -1)
-				color = 0xFF0000;
-			else if (value == 0)
-				color = 0x800080;
-			else if (value == 1)
-				color = 0x0000FF;
-			else
-				color = 0xFFFFFF;
-			draw_square(renderer, x * 20, y * 20, color);
+			draw_square(renderer, x * 20, y * 20,
+				get_grid_color(renderer->map->grid[y][x]));
 			x++;
 		}
 		y++;

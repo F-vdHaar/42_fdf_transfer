@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   camera.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: fvon-der <fvon-der@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 13:09:07 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/24 17:45:06 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/27 06:58:05 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "fdf.h"
+#include "fdf.h"
 
 static float	calculate_z_height(t_renderer *renderer);
 
-int init_camera(t_renderer *renderer)
+int	init_camera(t_renderer *renderer)
 {
 	renderer->camera->iso = 1;
 	renderer->camera->zoom = 1.0;
@@ -30,13 +30,14 @@ int init_camera(t_renderer *renderer)
 	return (EXIT_SUCCESS);
 }
 
-static float calculate_z_height(t_renderer *renderer)
+static float	calculate_z_height(t_renderer *renderer)
 {
-	int z_range;
-	int max_dim;
-	float scale_x, scale_y, scale_z, scale;
-	float margin = 0.8f;
+	int		z_range;
+	int		max_dim;
+	float	scale;
+	float	margin;
 
+	margin = 0.8f;
 	z_range = renderer->map->z_max - renderer->map->z_min;
 	if (z_range <= 0)
 	{
@@ -48,15 +49,12 @@ static float calculate_z_height(t_renderer *renderer)
 		max_dim = renderer->map->height;
 	if (z_range > max_dim)
 		max_dim = z_range;
-	scale_x = (float)(renderer->win_width * margin) / renderer->map->width;
-	scale_y = (float)(renderer->win_height * margin) / renderer->map->height;
-	scale_z = (float)(renderer->win_height * margin) / z_range;
-	scale = scale_x;
-	if (scale_y < scale)
-		scale = scale_y;
-	if (scale_z < scale)
-		scale = scale_z;
-	renderer->camera->z_height = z_range / scale;
+	scale = (float)(renderer->win_width * margin) / renderer->map->width;
+	if (((float)(renderer->win_height * margin)
+		/ renderer->map->height) < scale)
+		scale = (float)(renderer->win_height * margin) / renderer->map->height;
+	if (((float)(renderer->win_height * margin) / z_range) < scale)
+		scale = (float)(renderer->win_height * margin) / z_range;
+	renderer->camera->z_height = (float)z_range / scale;
 	return (renderer->camera->z_height);
 }
-

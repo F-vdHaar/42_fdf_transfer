@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   line.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: fvon-der <fvon-der@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 14:10:11 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/24 14:20:45 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/27 08:05:35 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static void	draw_vertical_line(t_renderer *renderer, t_map *map, int x, int y);
 static void	draw_horizontal_line(t_renderer *renderer,
 				t_map *map, int x, int y);
 
-//DEBUG TODO why end point projection is messed up
 int	draw_line(t_renderer *renderer, t_point *start, t_point *end)
 {
 	bresenham_draw(renderer, start, end);
@@ -39,56 +38,49 @@ int	init_line_params(t_point start, t_point end,
 	return (EXIT_SUCCESS);
 }
 
-static void draw_horizontal_line(t_renderer *renderer, t_map *map, int x, int y)
+static void	draw_horizontal_line(t_renderer *renderer, t_map *map, int x, int y)
 {
-	t_point start;
-	t_point end;
+	t_point	start;
+	t_point	end;
 
 	start = project_point(renderer, x, y, map->grid[y][x]);
-	start.color = renderer->map->color[y][x]; // Corrected index order
+	start.color = renderer->map->color[y][x];
 	if (x < map->width - 1)
 	{
 		end = project_point(renderer, x + 1, y, map->grid[y][x + 1]);
-		end.color = renderer->map->color[y][x + 1]; // Corrected index order
-
-		// Check if both points are out of bounds
-		if ((start.x < 0 || start.x >= renderer->win_width || start.y < 0 || start.y >= renderer->win_height) &&
-			(end.x < 0 || end.x >= renderer->win_width || end.y < 0 || end.y >= renderer->win_height))
+		end.color = renderer->map->color[y][x + 1];
+		if ((start.x < 0 || start.x >= renderer->win_width || start.y < 0
+				|| start.y >= renderer->win_height)
+			&& (end.x < 0 || end.x >= renderer->win_width
+				|| end.y < 0 || end.y >= renderer->win_height))
 		{
-			//ft_printf("DEBUG: Skipping horizontal line from (%d, %d) to (%d, %d) - Out of bounds\n",
-					  //(int)start.x, (int)start.y, (int)end.x, (int)end.y);
-			return;
+			return ;
 		}
-
 		draw_line(renderer, &start, &end);
 	}
 }
 
-static void draw_vertical_line(t_renderer *renderer, t_map *map, int x, int y)
+static void	draw_vertical_line(t_renderer *renderer, t_map *map, int x, int y)
 {
-	t_point start;
-	t_point end;
+	t_point	start;
+	t_point	end;
 
 	start = project_point(renderer, x, y, map->grid[y][x]);
-	start.color = renderer->map->color[y][x]; // Corrected index order
+	start.color = renderer->map->color[y][x];
 	if (y < map->height - 1)
 	{
 		end = project_point(renderer, x, y + 1, map->grid[y + 1][x]);
-		end.color = renderer->map->color[y + 1][x]; // Corrected index order
-
-		// Check if both points are out of bounds
-		if ((start.x < 0 || start.x >= renderer->win_width || start.y < 0 || start.y >= renderer->win_height) &&
-			(end.x < 0 || end.x >= renderer->win_width || end.y < 0 || end.y >= renderer->win_height))
+		end.color = renderer->map->color[y + 1][x];
+		if ((start.x < 0 || start.x >= renderer->win_width
+				|| start.y < 0 || start.y >= renderer->win_height)
+			&& (end.x < 0 || end.x >= renderer->win_width
+				|| end.y < 0 || end.y >= renderer->win_height))
 		{
-			//ft_printf("DEBUG: Skipping vertical line from (%d, %d) to (%d, %d) - Out of bounds\n",
-				//	  (int)start.x, (int)start.y, (int)end.x, (int)end.y);
-			return;
+			return ;
 		}
-
 		draw_line(renderer, &start, &end);
 	}
 }
-
 
 int	draw_map_line(t_renderer *renderer, t_map *map)
 {

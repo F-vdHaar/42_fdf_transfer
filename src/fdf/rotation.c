@@ -3,59 +3,95 @@
 /*                                                        :::      ::::::::   */
 /*   rotation.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvon-de <fvon-der@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: fvon-der <fvon-der@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 17:37:02 by fvon-de           #+#    #+#             */
-/*   Updated: 2025/02/24 18:04:44 by fvon-de          ###   ########.fr       */
+/*   Updated: 2025/02/27 07:31:52 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "fdf.h"
+#include "fdf.h"
 
 static void	create_rotation_matrices(t_renderer *renderer,
-	float rot_x[3][3], float rot_y[3][3], float rot_z[3][3]);
-	
+				float rot_x[3][3], float rot_y[3][3], float rot_z[3][3]);
+static void	set_matrix(float m[3][3], float a, float b, char axis);
+static void	init_identity_matrix(float m[3][3]);
+
 t_point	rotate_point(t_renderer *renderer, t_point point)
 {
-	float	rot_x[3][3];
-	float	rot_y[3][3];
-	float	rot_z[3][3];
+	float	rx[3][3];
+	float	ry[3][3];
+	float	rz[3][3];
 	t_point	rotated;
 
-	create_rotation_matrices(renderer, rot_x, rot_y, rot_z);
-	rotated.x = point.x * rot_z[0][0] + point.y * rot_z[0][1] + point.z * rot_z[0][2];
-	rotated.y = point.x * rot_z[1][0] + point.y * rot_z[1][1] + point.z * rot_z[1][2];
-	rotated.z = point.x * rot_z[2][0] + point.y * rot_z[2][1] + point.z * rot_z[2][2];
+	create_rotation_matrices(renderer, rx, ry, rz);
+	rotated.x = point.x * rz[0][0] + point.y * rz[0][1] + point.z * rz[0][2];
+	rotated.y = point.x * rz[1][0] + point.y * rz[1][1] + point.z * rz[1][2];
+	rotated.z = point.x * rz[2][0] + point.y * rz[2][1] + point.z * rz[2][2];
 	point = rotated;
-	rotated.x = point.x * rot_y[0][0] + point.y * rot_y[0][1] + point.z * rot_y[0][2];
-	rotated.y = point.x * rot_y[1][0] + point.y * rot_y[1][1] + point.z * rot_y[1][2];
-	rotated.z = point.x * rot_y[2][0] + point.y * rot_y[2][1] + point.z * rot_y[2][2];
+	rotated.x = point.x * ry[0][0] + point.y * ry[0][1] + point.z * ry[0][2];
+	rotated.y = point.x * ry[1][0] + point.y * ry[1][1] + point.z * ry[1][2];
+	rotated.z = point.x * ry[2][0] + point.y * ry[2][1] + point.z * ry[2][2];
 	point = rotated;
-	rotated.x = point.x * rot_x[0][0] + point.y * rot_x[0][1] + point.z * rot_x[0][2];
-	rotated.y = point.x * rot_x[1][0] + point.y * rot_x[1][1] + point.z * rot_x[1][2];
-	rotated.z = point.x * rot_x[2][0] + point.y * rot_x[2][1] + point.z * rot_x[2][2];
+	rotated.x = point.x * rx[0][0] + point.y * rx[0][1] + point.z * rx[0][2];
+	rotated.y = point.x * rx[1][0] + point.y * rx[1][1] + point.z * rx[1][2];
+	rotated.z = point.x * rx[2][0] + point.y * rx[2][1] + point.z * rx[2][2];
 	return (rotated);
 }
 
+static void	init_identity_matrix(float m[3][3])
+{
+	int	i;
+	int	j;
+
+	i = -1;
+	while (++i < 3)
+	{
+		j = -1;
+		while (++j < 3)
+			m[i][j] = (i == j);
+	}
+}
+
+static void	set_matrix(float m[3][3], float a, float b, char axis)
+{
+	init_identity_matrix(m);
+	if (axis == 'x')
+	{
+		m[1][1] = a;
+		m[1][2] = -b;
+		m[2][1] = b;
+		m[2][2] = a;
+	}
+	else if (axis == 'y')
+	{
+		m[0][0] = a;
+		m[0][2] = b;
+		m[2][0] = -b;
+		m[2][2] = a;
+	}
+	else if (axis == 'z')
+	{
+		m[0][0] = a;
+		m[0][1] = -b;
+		m[1][0] = b;
+		m[1][1] = a;
+	}
+}
+
 static void	create_rotation_matrices(t_renderer *renderer,
-	float rot_x[3][3], float rot_y[3][3], float rot_z[3][3])
+		float rot_x[3][3], float rot_y[3][3], float rot_z[3][3])
 {
 	float	c;
 	float	s;
 
 	c = cos(renderer->camera->x_angle);
 	s = sin(renderer->camera->x_angle);
-	rot_x[0][0] = 1; rot_x[0][1] = 0; rot_x[0][2] = 0;
-	rot_x[1][0] = 0; rot_x[1][1] = c; rot_x[1][2] = -s;
-	rot_x[2][0] = 0; rot_x[2][1] = s; rot_x[2][2] = c;
+	set_matrix(rot_x, c, s, 'x');
 	c = cos(renderer->camera->y_angle);
 	s = sin(renderer->camera->y_angle);
-	rot_y[0][0] = c; rot_y[0][1] = 0; rot_y[0][2] = s;
-	rot_y[1][0] = 0; rot_y[1][1] = 1; rot_y[1][2] = 0;
-	rot_y[2][0] = -s; rot_y[2][1] = 0; rot_y[2][2] = c;
+	set_matrix(rot_y, c, s, 'y');
 	c = cos(renderer->camera->z_angle);
 	s = sin(renderer->camera->z_angle);
-	rot_z[0][0] = c; rot_z[0][1] = -s; rot_z[0][2] = 0;
-	rot_z[1][0] = s; rot_z[1][1] = c; rot_z[1][2] = 0;
-	rot_z[2][0] = 0; rot_z[2][1] = 0; rot_z[2][2] = 1;
+	set_matrix(rot_z, c, s, 'z');
 }

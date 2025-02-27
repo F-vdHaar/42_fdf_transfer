@@ -6,7 +6,7 @@
 /*   By: fvon-der <fvon-der@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 16:53:43 by fvon-der          #+#    #+#             */
-/*   Updated: 2025/02/27 06:32:09 by fvon-der         ###   ########.fr       */
+/*   Updated: 2025/02/27 07:23:05 by fvon-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,15 @@
 
 int	handle_translate(t_renderer *renderer, double dx, double dy, double dz)
 {
-		renderer->camera->x_offset += dx;
-		renderer->camera->y_offset += dy;
-		renderer->camera->z_height += dz;
-		return (EXIT_SUCCESS);
+	renderer->camera->x_offset += dx;
+	renderer->camera->y_offset += dy;
+	renderer->camera->z_height += dz;
+	return (EXIT_SUCCESS);
 }
 
-int handle_zoom(t_renderer *renderer, double factor)
+int	handle_zoom(t_renderer *renderer, double factor)
 {
-	renderer->camera->zoom *= factor;	
-
+	renderer->camera->zoom *= factor;
 	if (renderer->camera->zoom < MIN_ZOOM)
 	{
 		renderer->camera->zoom = MIN_ZOOM;
@@ -53,7 +52,6 @@ int	handle_scale(t_renderer *renderer, double x_scale,
 int	handle_rotate(t_renderer *renderer, double x_angle,
 	double y_angle, double z_angle)
 {
-	printf("DEBUG: handle_rotate: x %f, y %f z %f \n" , x_angle, y_angle, z_angle);
 	renderer->camera->x_angle += x_angle;
 	renderer->camera->y_angle += y_angle;
 	renderer->camera->z_angle += z_angle;
